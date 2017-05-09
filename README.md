@@ -1,8 +1,19 @@
-# IM531_ProjectT2
+# IM531_ProjectT2 - TBD
 
-## Descriptions
+## Summary
+
+## Web Demo
 
 ## Team Members
-David Messerer
+* David Messerer
+* Sarah Schütz
 
-Sarah Schütz
+## Setup & Folder Structure
+
+## Workflow
+
+## Deployment
+
+## Browser Compatibility & Responsiveness
+
+
