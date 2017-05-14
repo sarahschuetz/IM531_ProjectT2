@@ -2,6 +2,13 @@
 
 ## Summary
 
+Ideas:
+* Website Background-Generator
+* Mamp for NODE.js
+* Recipe App
+* Card Game Clone
+
+
 ## Web Demo
 
 ## Team Members
