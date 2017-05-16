@@ -1,13 +1,8 @@
-# IM531_ProjectT2 - TBD
+# IM531_ProjectT2 - Edon
 
 ## Summary
 
-Ideas:
-* Website Background-Generator
-* Mamp for NODE.js
-* Recipe App
-* Card Game Clone
-
+Edon is a graphical interface for starting and managing node.js servers in a similar way that MAMP or Xampp is for PHP.
 
 ## Web Demo
 
