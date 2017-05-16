@@ -2,9 +2,8 @@
   "name": "edon",
   "version": "0.0.1",
   "description": "server GUI for node.js",
-  "main": "index.js",
-  "scripts": {
-  },
+  "main": "src/main.js",
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git@github.com:sarahschuetz/IM531_ProjectT2.git"
@@ -16,6 +15,7 @@
   },
   "homepage": "https://github.com/sarahschuetz/IM531_ProjectT2",
   "dependencies": {
+    "electron": "^1.6.7",
     "express": "^4.15.2",
     "material-ui": "^0.18.0",
     "prop-types": "^15.5.8",
