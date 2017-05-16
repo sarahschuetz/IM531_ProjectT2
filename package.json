@@ -2,8 +2,10 @@
   "name": "edon",
   "version": "0.0.1",
   "description": "server GUI for node.js",
-  "main": "src/main.js",
-  "scripts": {},
+  "main": "app/main.js",
+  "scripts": {
+    "watch": "webpack --watch"
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com:sarahschuetz/IM531_ProjectT2.git"
