@@ -1,19 +1,30 @@
 import React from 'react';
+import { ipcRenderer, shell } from 'electron';
+import MenuBar from './components/MenuBar.jsx';
+import ProjectBar from './components/ProjectBar.jsx';
+import ServerWindow from './components/ServerWindow.jsx';
+import SystemBarBottom from './components/SystemBarBottom.jsx';
+import SystemBarTop from './components/SystemBarTop.jsx';
 
 class App extends React.Component {
 
-  constructor(props) {
-    super(props);
+  componentDidMount() {
+    ipcRenderer.on('VolumeUp', () => {
+      console.log('TEST');
+    });
+  }
 
-    this.state = {};
+  openWebsite() {
+    shell.openExternal("http://google.at");
   }
 
   render() {
     return <div>
-      <h1>Hello World from React and Electron!</h1>
-      We are using node <script>document.write(process.versions.node)</script>,
-      Chrome <script>document.write(process.versions.chrome)</script>,
-      and Electron <script>document.write(process.versions.electron)</script>.
+      <MenuBar />
+      <ProjectBar />
+      <SystemBarTop />
+      <ServerWindow />
+      <SystemBarBottom />
     </div>;
   }
 }
