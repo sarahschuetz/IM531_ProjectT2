@@ -20,7 +20,7 @@ const styles = {
     fontSize: '12px',
     color: Theme.colors.EDON_BLUE,
     margin: '0 auto',
-    marginTop: '100px',
+    paddingTop: '25px',
     width: '115px',
   },
   icon: {

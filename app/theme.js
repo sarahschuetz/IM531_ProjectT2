@@ -3,7 +3,7 @@ const theme = {
     EDON_BLUE: '#133b95',
     EDON_BLUE_LIGHT: '#99abd1',
     EDON_BLUE_ULTRA_LIGHT: '#b2c0dc',
-    BACKGROUND: '#161a23',
+    BACKGROUND: '#2c3446',
     FONT_DEFAULT: '#ffffff',
     WHITE: '#ffffff',
     BLACK: '#000000',
