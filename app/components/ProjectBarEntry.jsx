@@ -10,13 +10,22 @@ const styles = {
     fontFamily: Theme.fonts.MAIN_FONT_FAMILY,
     fontSize: '14px',
   },
+  icon: {
+    float: 'left',
+    marginRight: '10px',
+    fontSize: '22px',
+    marginTop: '-2px',
+  },
 };
 
 class ProjectBarEntry extends React.Component {
 
   render() {
     return <div style={styles.container}>
-      <div>Server 1</div>
+      <div>
+        <i className="material-icons" style={styles.icon}>power_settings_new</i>
+        Server 1
+      </div>
     </div>;
   }
 }

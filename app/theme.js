@@ -7,6 +7,12 @@ const theme = {
     FONT_DEFAULT: '#ffffff',
     WHITE: '#ffffff',
     BLACK: '#000000',
+    console: {
+      BACKGROUND: '#394152',
+      INFO_COLOR: '#ffffff',
+      SPECIAL_COLOR: '#99abd1',
+      ERROR_COLOR: '#ff0000',
+    },
   },
   sizes: {
     HEADER_HEIGHT: 50,

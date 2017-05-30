@@ -9,6 +9,7 @@ const styles = {
     fontFamily: Theme.fonts.MAIN_FONT_FAMILY,
     padding: '2px',
     borderBottom: `solid 1px ${Theme.colors.EDON_BLUE_LIGHT}`,
+    clear: 'both',
   },
   appName: {
     color: Theme.colors.WHITE,
