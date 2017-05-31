@@ -14,7 +14,7 @@ const styles = {
     overflowX: 'hidden',
     position: 'absolute',
     bottom: '16px',
-    // opacity: '0.3',
+    // opacity: '0.3',x
   },
   button: {
     position: 'absolute',
