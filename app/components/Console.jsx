@@ -14,7 +14,26 @@ const styles = {
     overflowX: 'hidden',
     position: 'absolute',
     bottom: '16px',
-    opacity: '0.3',
+    // opacity: '0.3',
+  },
+  button: {
+    position: 'absolute',
+    top: '16px',
+    right: '16px',
+    display: 'block',
+    marginBottom: '16px',
+    borderRadius: 'none',
+    border: 'none',
+    backgroundColor: Theme.colors.BACKGROUND,
+    color: Theme.colors.FONT_DEFAULT,
+    fontWeight: '200',
+    outline: false,
+    cursor: 'pointer',
+  },
+  icon: {
+    fontSize: '10px',
+    position: 'relative',
+    top: '1px',
   },
 };
 
@@ -23,17 +42,26 @@ class Console extends React.Component {
   constructor(props) {
     super(props);
 
+    let command;
+
+    if (process.platform === 'win32') {
+      command = spawn('cmd.exe', ['webpack', '--watch']);
+    } else {
+      command = spawn('webpack', ['--watch']);
+    }
+
     this.state = {
-      command: spawn('webpack', ['--watch']),
+      command,
       messages: [],
+      consoleIsEmpty: true,
     };
 
     this.state.command.stdout.on('data', (data) => {
-      console.log('TEST');
       this.setState(state => ({
         messages: state.messages.concat(<ConsoleMessage data={`${data}`}
                                                   key={this.state.messages.length}
                                                   color={Theme.colors.console.INFO_COLOR} />),
+        consoleIsEmpty: false,
       }));
     });
 
@@ -55,10 +83,17 @@ class Console extends React.Component {
     });*/
   }
 
+  clearConsole = () => {
+    this.setState({
+      messages: [],
+      consoleIsEmpty: true,
+    });
+  }
+
   render() {
     return <div style={styles.container}>
-    { this.state.messages }
-
+      {!this.state.consoleIsEmpty && <button onClick={this.clearConsole} style={styles.button}>clear <i className="material-icons" style={styles.icon}>clear</i></button>}
+      { this.state.messages }
     </div>;
   }
 }
