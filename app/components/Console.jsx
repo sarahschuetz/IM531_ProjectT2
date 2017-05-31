@@ -42,16 +42,8 @@ class Console extends React.Component {
   constructor(props) {
     super(props);
 
-    let command = spawn('webpack', ['--watch'], { shell: true });
-
-    // if (process.platform === 'win32') {
-    //   command = spawn('cmd.exe', ['webpack', '--watch']);
-    // } else {
-    //   command = spawn('webpack', ['--watch']);
-    // }
-
     this.state = {
-      command,
+      command: spawn('webpack', ['--watch'], { shell: true }),
       messages: [],
       consoleIsEmpty: true,
     };
