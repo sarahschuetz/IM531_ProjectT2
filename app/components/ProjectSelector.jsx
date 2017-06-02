@@ -32,21 +32,18 @@ const styles = {
     fontFamily: Theme.fonts.MAIN_FONT_FAMILY,
     color: Theme.colors.WHITE,
   },
-};
-
-const dTest = {
   button: {
-    position: 'absolute',
-    top: '16px',
-    right: '16px',
+    float: 'right',
+    top: '0px',
     display: 'block',
-    marginBottom: '16px',
+    marginBottom: '20px',
     backgroundColor: Theme.colors.BACKGROUND,
     color: Theme.colors.FONT_DEFAULT,
     fontWeight: '200',
     outline: false,
     cursor: 'pointer',
   },
+
 };
 
 class ProjectSelector extends React.Component {
@@ -75,7 +72,7 @@ class ProjectSelector extends React.Component {
   render() {
     return <div style={styles.container}>
           <div><img src="" /></div>
-          <div>Select Project <button onClick={this.onButtonClick} style={dTest.button}> <i className="material-icons" style={styles.icon}>arrow_drop_down</i></button></div>
+          <div>Select Project <button onClick={this.onButtonClick} style={styles.button}> <i className="material-icons" style={styles.icon}>arrow_drop_down</i></button></div>
         {this.state.fadeIn ? <div style={styles.dropIn}></div> : null}
         {!this.state.fadeIn ? <div style ={styles.drop}></div> : null}
         </div>;
