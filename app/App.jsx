@@ -44,7 +44,7 @@ class App extends React.Component {
       <div>
         <MenuBar>
           {routes.map(route => (
-            <Link to={route.link} key={route.link} style={styles.menuLink}>
+            <Link to={route.link} key={route.link} style={styles.menuLink} replace>
               <MenuItem icon={route.icon} />
             </Link>
           ))}
