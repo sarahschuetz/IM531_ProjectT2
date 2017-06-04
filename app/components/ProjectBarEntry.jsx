@@ -1,3 +1,4 @@
+import Radium from 'radium';
 import React from 'react';
 import Theme from './../theme';
 
@@ -5,10 +6,13 @@ const styles = {
   container: {
     width: `${Theme.sizes.PROJECT_BAR_WIDTH}px`,
     height: '50px',
-    padding: '10px 20px',
+    padding: '17px 20px',
     color: Theme.colors.WHITE,
     fontFamily: Theme.fonts.MAIN_FONT_FAMILY,
     fontSize: '14px',
+    ':hover': {
+      backgroundColor: Theme.colors.EDON_BLUE_LIGHT,
+    },
   },
   icon: {
     float: 'left',
@@ -27,6 +31,7 @@ const styles = {
   },
 };
 
+@Radium
 class ProjectBarEntry extends React.Component {
 
 

@@ -1,6 +1,5 @@
 import React from 'react';
 import Theme from './../theme';
-import Console from './Console.jsx';
 
 const styles = {
   container: {
@@ -18,13 +17,13 @@ const styles = {
   },
 };
 
-class ServerWindow extends React.Component {
+class SettingsWindow extends React.Component {
 
   render() {
     return <div style={styles.container}>
-      <Console />
+      SOME SETTINGS
     </div>;
   }
 }
 
-export default ServerWindow;
+export default SettingsWindow;
