@@ -71,8 +71,7 @@ class ProjectSelector extends React.Component {
     return <div style={styles.container}>
           <div><img src="" /></div>
         <div style={styles.fontPad}>Select Project<button onClick={this.onButtonClick} style={styles.button}> <i className="material-icons" style={styles.icon}>arrow_drop_down</i></button></div>
-        {this.state.fadeIn ? <div style={styles.dropIn}></div> : null}
-        {!this.state.fadeIn ? <div style ={styles.drop}></div> : null}
+        {this.state.fadeIn ? <div style={styles.dropIn}></div> : <div style ={styles.drop}></div>}
         </div>;
   }
 
