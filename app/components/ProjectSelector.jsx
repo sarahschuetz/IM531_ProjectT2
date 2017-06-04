@@ -35,6 +35,7 @@ const styles = {
     background: 'transparent',
     color: Theme.colors.FONT_DEFAULT,
     cursor: 'pointer',
+    outline: 'none',
     // margin: '16px',
   },
   fontPad: {
