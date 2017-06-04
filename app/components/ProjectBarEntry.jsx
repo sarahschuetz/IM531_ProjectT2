@@ -1,5 +1,6 @@
 import Radium from 'radium';
 import React from 'react';
+import PropTypes from 'prop-types';
 import Theme from './../theme';
 
 const styles = {
@@ -34,6 +35,10 @@ const styles = {
 @Radium
 class ProjectBarEntry extends React.Component {
 
+  static propTypes = {
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+  };
 
   constructor(props) {
     super(props);
@@ -63,13 +68,13 @@ class ProjectBarEntry extends React.Component {
   }
 
   render() {
-    return <div style={styles.container}>
+    return <div style={styles.container} key={this.props.id}>
       <div>
         <button style={styles.button} onClick={this.onButtonClick}><i className="material-icons" style={styles.icon}>
             {!this.state.isPowerOn ? 'power_settings_new' : 'play_arrow'}
         </i>
         </button>
-        Server {this.state.serverNumb}
+        {this.props.name}
       </div>
     </div>;
   }

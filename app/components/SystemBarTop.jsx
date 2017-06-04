@@ -31,7 +31,7 @@ class SystemBarTop extends React.Component {
 
   static propTypes = {
     currentProjectIndex: PropTypes.number,
-    projects: PropTypes.object,
+    projects: PropTypes.array,
     project: PropTypes.object,
     dispatch: PropTypes.func,
     fileStore: PropTypes.object,

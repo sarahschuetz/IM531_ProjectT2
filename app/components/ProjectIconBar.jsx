@@ -11,7 +11,6 @@ const styles = {
     fontFamily: '"Montserrat", sans-serif',
     color: Theme.colors.FONT_DEFAULT,
     fontWeight: 300,
-    marginBottom: '40px',
     paddingRight: '10px',
   },
 };

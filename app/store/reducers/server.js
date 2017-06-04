@@ -3,7 +3,18 @@ import State from './../states/server';
 export default function reducer(state = State, action) {
   switch (action.type) {
     case 'ADD_SERVER': {
+      const serverList = [
+        ...state.list,
+        {
+          ...action.payload,
+          id: state.serverIdCounter,
+          command: '',
+        },
+      ];
       return {
+        ...state,
+        list: serverList,
+        serverIdCounter: state.serverIdCounter + 1,
       };
     }
     case 'DELETE_SERVER': {
