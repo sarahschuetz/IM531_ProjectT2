@@ -5,6 +5,8 @@ import ProjectIconBar from './ProjectIconBar.jsx';
 import ProjectSelector from './ProjectSelector.jsx';
 import Theme from './../theme';
 
+let value = 0;
+
 const styles = {
   container: {
     width: `${Theme.sizes.PROJECT_BAR_WIDTH}px`,
@@ -48,9 +50,11 @@ class ProjectBar extends React.Component {
   }
 
   onButtonClick() {
+    value += 1;
+    this.refs.child.count(value);
     const entryList = this.state.entryList;
     this.setState({
-      entryList: entryList.concat(<ProjectBarEntry key={entryList.length} />),
+      entryList: entryList.concat(<ProjectBarEntry key={entryList.length}/>),
     });
   }
 
@@ -59,7 +63,7 @@ class ProjectBar extends React.Component {
     return <div style={styles.container}>
       <ProjectSelector/>
       <ProjectIconBar/>
-      <ProjectBarEntry/>
+      <ProjectBarEntry ref="child"/>
       {this.state.entryList.map(input => input)}
       <button onClick={this.onButtonClick} style={styles.button}>
       <div style={styles.addServer}>

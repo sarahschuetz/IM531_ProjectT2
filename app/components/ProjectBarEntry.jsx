@@ -39,10 +39,16 @@ class ProjectBarEntry extends React.Component {
     super(props);
     this.state = {
       isPowerOn: false,
+      serverNumb: 0,
     };
     this.onButtonClick = this.onButtonClick.bind(this);
   }
 
+  count(value) {
+    this.setState({
+      serverNumb: value,
+    });
+  }
 
   onButtonClick() {
     if (!this.state.isPowerOn) {
@@ -63,7 +69,7 @@ class ProjectBarEntry extends React.Component {
             {!this.state.isPowerOn ? 'power_settings_new' : 'play_arrow'}
         </i>
         </button>
-        Server 1
+        Server {this.state.serverNumb}
       </div>
     </div>;
   }
