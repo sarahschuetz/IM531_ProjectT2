@@ -5,6 +5,8 @@ import ProjectIconBar from './ProjectIconBar.jsx';
 import ProjectSelector from './ProjectSelector.jsx';
 import Theme from './../theme';
 
+let value = 0;
+
 const styles = {
   container: {
     width: `${Theme.sizes.PROJECT_BAR_WIDTH}px`,
@@ -28,25 +30,47 @@ const styles = {
     marginRight: '5px',
     fontSize: '16px',
   },
+  button: {
+    display: 'inline-block',
+    border: 0,
+    background: 'transparent',
+    color: Theme.colors.FONT_DEFAULT,
+    fontFamily: Theme.fonts.MAIN_FONT_FAMILY,
+    outline: 'none',
+    cursor: 'pointer',
+  },
 };
 
 class ProjectBar extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = { entryList: [] };
+    this.onButtonClick = this.onButtonClick.bind(this);
+  }
+
+  onButtonClick() {
+    value += 1;
+    this.refs.child.count(value);
+    const entryList = this.state.entryList;
+    this.setState({
+      entryList: entryList.concat(<ProjectBarEntry key={entryList.length}/>),
+    });
+  }
+
 
   render() {
     return <div style={styles.container}>
       <ProjectSelector/>
       <ProjectIconBar/>
-
-      <ProjectBarEntry/>
-      <ProjectBarEntry/>
-      <ProjectBarEntry/>
-      <ProjectBarEntry/>
-      <ProjectBarEntry/>
-
+      <ProjectBarEntry ref="child"/>
+      {this.state.entryList.map(input => input)}
+      <button onClick={this.onButtonClick} style={styles.button}>
       <div style={styles.addServer}>
-        <i className="material-icons" style={styles.icon}>add_circle</i>
+       <i className="material-icons" style={styles.icon}>add_circle</i>
         add new Server
       </div>
+      </button>
     </div>;
   }
 }
