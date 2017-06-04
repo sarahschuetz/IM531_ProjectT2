@@ -1,6 +1,7 @@
 import React from 'react';
 import Theme from './../theme';
 import Console from './../components/Console.jsx';
+import TextInput from './../components/TextInput.jsx';
 
 const styles = {
   container: {
@@ -22,6 +23,7 @@ class ServerWindow extends React.Component {
 
   render() {
     return <div style={styles.container}>
+      <TextInput label="Command" placeholder="npm start" />
       <Console />
     </div>;
   }

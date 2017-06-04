@@ -1,4 +1,4 @@
-import State from './../state';
+import State from './../states/project';
 
 export default function reducer(state = State, action) {
   switch (action.type) {

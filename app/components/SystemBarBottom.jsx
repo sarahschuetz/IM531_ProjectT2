@@ -41,7 +41,7 @@ const styles = {
 };
 
 @connect(store => ({
-  runningServer: store.runningServer,
+  runningServer: store.server.runningServer,
 }))
 class SystemBarBottom extends React.Component {
 
