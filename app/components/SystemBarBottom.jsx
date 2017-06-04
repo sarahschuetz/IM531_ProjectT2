@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Theme from './../theme';
 
 const styles = {
@@ -38,7 +40,14 @@ const styles = {
   },
 };
 
+@connect(store => ({
+  runningServer: store.runningServer,
+}))
 class SystemBarBottom extends React.Component {
+
+  static propTypes = {
+    runningServer: PropTypes.number,
+  };
 
   constructor(props) {
     super(props);
@@ -47,7 +56,6 @@ class SystemBarBottom extends React.Component {
       version: {
         node: process.versions.node,
       },
-      runningServers: 7,
     };
   }
 
@@ -59,7 +67,7 @@ class SystemBarBottom extends React.Component {
         <span style={styles.bold}> {this.state.version.node}</span>
       </div>
       <div style={styles.infoRight}>
-        <span style={styles.bold}>{this.state.runningServers} </span>
+        <span style={styles.bold}>{this.props.runningServer} </span>
         running server
       </div>
     </div>;

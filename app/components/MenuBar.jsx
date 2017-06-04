@@ -1,7 +1,6 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import Logo from './Logo.jsx';
-import MenuItem from './MenuItem.jsx';
 import Theme from './../theme';
 
 const styles = {
@@ -16,12 +15,14 @@ const styles = {
 
 class MenuBar extends React.Component {
 
+  static propTypes = {
+    children: PropTypes.array,
+  };
+
   render() {
     return <div style={styles.container}>
       <Logo />
-      <MenuItem icon="code" />
-      <MenuItem icon="error" />
-      <MenuItem icon="settings" />
+      {this.props.children}
     </div>;
   }
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Theme from './../theme';
 
 const size = '20px';
@@ -18,6 +19,10 @@ const styles = {
 };
 
 class ProjectIcon extends React.Component {
+
+  static propTypes = {
+    icon: PropTypes.string,
+  };
 
   render() {
     return <div style={styles.container}>

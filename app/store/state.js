@@ -11,7 +11,7 @@ const state = {
     },
   ],
   settings: [],
-  runningServers: 0,
+  runningServer: 0,
 };
 
 export default state;

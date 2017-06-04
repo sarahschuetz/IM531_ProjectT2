@@ -6,7 +6,7 @@ module.exports = {
         sourceType: 'module',
         ecmaFeatures: {
             jsx: true,
-        }
+        },
     },
     extends: [
         'airbnb-base',
@@ -14,7 +14,6 @@ module.exports = {
     ],
     globals: {
         test: true,
-
     },
     plugins: [
         'react'
@@ -24,5 +23,7 @@ module.exports = {
     },
     rules: {
         'linebreak-style': 0,
+        'class-methods-use-this': 0,
+        'experimental-decorators': 0,
     }
 };

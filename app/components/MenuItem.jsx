@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Theme from './../theme';
 
 const styles = {
@@ -16,6 +17,10 @@ const styles = {
 };
 
 class MenuBar extends React.Component {
+
+  static propTypes = {
+    icon: PropTypes.string,
+  };
 
   render() {
     return <div style={styles.container}>
