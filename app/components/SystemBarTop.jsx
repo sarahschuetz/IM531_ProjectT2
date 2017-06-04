@@ -2,6 +2,8 @@ import React from 'react';
 import Theme from './../theme';
 import TextInput from './../components/TextInput.jsx';
 
+const { dialog } = require('electron').remote;
+
 const styles = {
   container: {
     backgroundColor: Theme.colors.WHITE,
@@ -15,9 +17,35 @@ const styles = {
 };
 
 class SystemBarTop extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = { value: '' };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.openFolder = this.openFolder.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({ value: event.target.value });
+  }
+
+  openFolder() {
+    dialog.showOpenDialog({ properties: ['openDirectory', 'createDirectory', 'promptToCreate'] },
+    (filePaths) => {
+      this.setState({ value: filePaths[0] });
+    });
+  }
+
   render() {
     return <div style={styles.container}>
-      <TextInput label="Project root" placeholder="path/to/project/root" backgroundLight={true} icon='folder'/>
+      <TextInput label="Project root"
+                 placeholder="path/to/project/root"
+                 backgroundLight={true}
+                 icon='folder'
+                 iconClickHandler={this.openFolder}
+                 value={this.state.value}
+                 handleChange={this.handleChange} />
     </div>;
   }
 }

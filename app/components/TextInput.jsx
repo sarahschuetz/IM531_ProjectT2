@@ -43,6 +43,9 @@ const styles = {
     marginLeft: '10px',
     marginTop: '2px',
     color: Theme.colors.EDON_BLUE,
+    ':hover': {
+      cursor: 'pointer',
+    },
   },
 };
 
@@ -54,6 +57,9 @@ class TextInput extends React.Component {
     placeholder: PropTypes.string,
     backgroundLight: PropTypes.bool,
     icon: PropTypes.string,
+    iconClickHandler: PropTypes.func,
+    value: PropTypes.string,
+    handleChange: PropTypes.func,
   };
 
   getInputStyle() {
@@ -75,7 +81,10 @@ class TextInput extends React.Component {
   render() {
     let icon;
     if (this.props.icon) {
-      icon = <i className="material-icons" style={styles.icon}>{this.props.icon}</i>;
+      icon = <i className="material-icons"
+                style={styles.icon}
+                onClick={this.props.iconClickHandler}
+                key={this.props.icon}>{this.props.icon}</i>;
     }
 
     return <div style={styles.container}>
@@ -86,7 +95,9 @@ class TextInput extends React.Component {
         {icon}
         <input type="text"
                style={this.getInputStyle()}
-               placeholder={this.props.placeholder} />
+               placeholder={this.props.placeholder}
+               value={this.props.value}
+               onChange={this.props.handleChange} />
       </label>
     </div>;
   }
