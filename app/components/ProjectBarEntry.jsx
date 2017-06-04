@@ -55,8 +55,7 @@ class ProjectBarEntry extends React.Component {
     return <div style={styles.container}>
       <div>
         <button style={styles.button} onClick={this.onButtonClick}><i className="material-icons" style={styles.icon}>
-            {!this.state.isPowerOn ? 'power_settings_new' : null}
-            {this.state.isPowerOn ? 'play_arrow' : null}
+            {!this.state.isPowerOn ? 'power_settings_new' : 'play_arrow'}
         </i>
         </button>
         Server 1
