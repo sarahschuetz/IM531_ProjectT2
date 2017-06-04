@@ -1,10 +1,20 @@
+import FileStore from 'electron-store';
+
+const fileStore = new FileStore({
+  name: 'server-store',
+  defaults: {
+    list: [
+      {
+        name: 'project1',
+      },
+    ],
+    runningServer: 3,
+  },
+});
+
 const state = {
-  list: [
-    {
-      name: 'project1',
-    },
-  ],
-  runningServer: 2,
+  ...fileStore.store,
+  fileStore,
 };
 
 export default state;

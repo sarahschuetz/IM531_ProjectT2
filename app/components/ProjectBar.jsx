@@ -12,7 +12,6 @@ const styles = {
     width: `${Theme.sizes.PROJECT_BAR_WIDTH}px`,
     height: `calc(100% - ${Theme.sizes.SYSTEM_BAR_BOTTOM_HEIGHT}px)`,
     backgroundColor: Theme.colors.EDON_BLUE_ULTRA_LIGHT,
-    // borderRight: `solid 1px ${Theme.colors.WHITE}`,
     float: 'left',
     color: Theme.colors.WHITE,
     fontFamily: Theme.fonts.MAIN_FONT_FAMILY,

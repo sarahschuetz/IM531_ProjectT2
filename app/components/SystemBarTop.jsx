@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import _ from 'underscore';
 import Theme from './../theme';
 import TextInput from './../components/TextInput.jsx';
 import { setProjectRootPath } from './../store/actions/project';
@@ -21,14 +22,18 @@ const styles = {
 
 @connect(store => ({
   currentProjectIndex: store.project.currentProjectIndex,
+  projects: store.project.list,
   project: store.project.list[store.project.currentProjectIndex],
+  fileStore: store.project.fileStore,
 }))
 class SystemBarTop extends React.Component {
 
   static propTypes = {
     currentProjectIndex: PropTypes.number,
+    projects: PropTypes.object,
     project: PropTypes.object,
     dispatch: PropTypes.func,
+    fileStore: PropTypes.object,
   };
 
   constructor(props) {
@@ -37,14 +42,24 @@ class SystemBarTop extends React.Component {
     this.openFolder = this.openFolder.bind(this);
   }
 
+  componentWillMount() {
+    this.saveChange = _.debounce(this.saveChange, 2000);
+  }
+
   handleChange(event) {
     this.props.dispatch(setProjectRootPath(event.target.value));
+    this.saveChange();
+  }
+
+  saveChange() {
+    this.props.fileStore.set('list', this.props.projects);
   }
 
   openFolder() {
     dialog.showOpenDialog({ properties: ['openDirectory', 'createDirectory', 'promptToCreate'] },
     (filePaths) => {
       this.props.dispatch(setProjectRootPath(filePaths[0]));
+      this.saveChange();
     });
   }
 

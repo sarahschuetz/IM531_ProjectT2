@@ -13,7 +13,10 @@ module.exports = {
     path: PUBLIC_DIR,
     filename: 'bundle.js',
   },
-  target: 'electron-main',
+  target: 'electron',
+  externals: [{
+    'electron-store': 'require("electron-store")',
+  }],
   devtool: production ? 'source-map' : 'eval-source-map', // switch to cheap-module-eval-source-map or eval if it gets too slow
   module: {
     rules: [
