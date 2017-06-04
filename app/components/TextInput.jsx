@@ -6,9 +6,7 @@ import Theme from './../theme';
 const styles = {
   container: {
     width: '100%',
-    height: `${Theme.sizes.MENU_ITEM_HEIGHT}px`,
-    marginTop: '10px',
-    marginBottom: '50px',
+    height: '13px',
   },
   label: {
     display: 'block',

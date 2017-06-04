@@ -1,4 +1,5 @@
 import React from 'react';
+import Radium from 'radium';
 import Theme from './../theme';
 import Console from './../components/Console.jsx';
 import TextInput from './../components/TextInput.jsx';
@@ -17,13 +18,38 @@ const styles = {
     float: 'right',
     position: 'relative',
   },
+  settings: {
+    position: 'relative',
+    height: '164px',
+    width: '100%',
+  },
+  input: {
+    position: 'absolute',
+    width: '100%',
+    bottom: '16px',
+  },
+  icon: {
+    fontSize: '60px',
+    position: 'absolute',
+    right: '0px',
+    ':hover': {
+      cursor: 'pointer',
+      color: Theme.colors.EDON_BLUE_ULTRA_LIGHT,
+    },
+  },
 };
 
+@Radium
 class ServerWindow extends React.Component {
 
   render() {
     return <div style={styles.container}>
-      <TextInput label="Command" placeholder="npm start" />
+      <div style={styles.settings}>
+        <i className="material-icons" style={styles.icon}>power_settings_new</i>
+        <div style={styles.input}>
+          <TextInput label="Command" placeholder="npm start" />
+        </div>
+      </div>
       <Console />
     </div>;
   }

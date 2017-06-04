@@ -3,7 +3,7 @@ const state = {
   list: [
     {
       name: 'project1',
-      rootPath: 'Test/root/path',
+      rootPath: '',
     },
   ],
 };
