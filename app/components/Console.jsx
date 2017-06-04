@@ -48,15 +48,6 @@ class Console extends React.Component {
       consoleIsEmpty: true,
     };
 
-    this.state.command.stdout.on('data', (data) => {
-      this.setState(state => ({
-        messages: state.messages.concat(<ConsoleMessage data={`${data}`}
-                                                  key={this.state.messages.length}
-                                                  color={Theme.colors.console.INFO_COLOR} />),
-        consoleIsEmpty: false,
-      }));
-    });
-
     /* this.state.command.stderr.on('data', (data) => {
       this.setState(state => ({
         messages: state.messages.concat(<ConsoleMessage data={`${data}`}
@@ -73,6 +64,21 @@ class Console extends React.Component {
       }));
       // console.log(`child process exited with code ${code}`);
     });*/
+  }
+
+  componentWillMount() {
+    this.state.command.stdout.on('data', (data) => {
+      this.setState(state => ({
+        messages: state.messages.concat(<ConsoleMessage data={`${data}`}
+                                                  key={this.state.messages.length}
+                                                  color={Theme.colors.console.INFO_COLOR} />),
+        consoleIsEmpty: false,
+      }));
+    });
+  }
+
+  componentWillUnmount() {
+    this.state.command.stdout.removeAllListeners();
   }
 
   clearConsole = () => {
