@@ -1,6 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Theme from './../theme';
 import TextInput from './../components/TextInput.jsx';
+import { setProjectRootPath } from './../store/actions/project';
 
 const { dialog } = require('electron').remote;
 
@@ -16,24 +19,32 @@ const styles = {
   },
 };
 
+@connect(store => ({
+  currentProjectIndex: store.project.currentProjectIndex,
+  project: store.project.list[store.project.currentProjectIndex],
+}))
 class SystemBarTop extends React.Component {
+
+  static propTypes = {
+    currentProjectIndex: PropTypes.number,
+    project: PropTypes.object,
+    dispatch: PropTypes.func,
+  };
 
   constructor(props) {
     super(props);
-    this.state = { value: '' };
-
     this.handleChange = this.handleChange.bind(this);
     this.openFolder = this.openFolder.bind(this);
   }
 
   handleChange(event) {
-    this.setState({ value: event.target.value });
+    this.props.dispatch(setProjectRootPath(event.target.value));
   }
 
   openFolder() {
     dialog.showOpenDialog({ properties: ['openDirectory', 'createDirectory', 'promptToCreate'] },
     (filePaths) => {
-      this.setState({ value: filePaths[0] });
+      this.props.dispatch(setProjectRootPath(filePaths[0]));
     });
   }
 
@@ -44,7 +55,7 @@ class SystemBarTop extends React.Component {
                  backgroundLight={true}
                  icon='folder'
                  iconClickHandler={this.openFolder}
-                 value={this.state.value}
+                 value={this.props.project.rootPath}
                  handleChange={this.handleChange} />
     </div>;
   }

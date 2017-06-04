@@ -23,3 +23,12 @@ export function renameProject(projectId, name) {
     },
   };
 }
+
+export function setProjectRootPath(path) {
+  return {
+    type: 'SET_PROJECT_ROOT_PATH',
+    payload: {
+      path,
+    },
+  };
+}

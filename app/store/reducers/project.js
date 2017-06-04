@@ -20,6 +20,19 @@ export default function reducer(state = State, action) {
       return {
       };
     }
+    case 'SET_PROJECT_ROOT_PATH': {
+      const projectList = {
+        ...state.list,
+      };
+      projectList[state.currentProjectIndex] = {
+        ...projectList[state.currentProjectIndex],
+        rootPath: action.payload.path,
+      };
+      return {
+        ...state,
+        list: projectList,
+      };
+    }
     default: {
       return state;
     }
