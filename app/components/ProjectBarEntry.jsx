@@ -20,15 +20,50 @@ const styles = {
     fontSize: '22px',
     marginTop: '-2px',
   },
+  button: {
+    float: 'left',
+    display: 'block',
+    border: 0,
+    background: 'transparent',
+    color: Theme.colors.FONT_DEFAULT,
+    outline: 'none',
+    cursor: 'pointer',
+  },
 };
 
 @Radium
 class ProjectBarEntry extends React.Component {
 
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      isPowerOn: false,
+    };
+    this.onButtonClick = this.onButtonClick.bind(this);
+  }
+
+
+  onButtonClick() {
+    if (!this.state.isPowerOn) {
+      this.setState({
+        isPowerOn: true,
+      });
+    } else {
+      this.setState({
+        isPowerOn: false,
+      });
+    }
+  }
+
   render() {
     return <div style={styles.container}>
       <div>
-        <i className="material-icons" style={styles.icon}>power_settings_new</i>
+        <button style={styles.button} onClick={this.onButtonClick}><i className="material-icons" style={styles.icon}>
+            {!this.state.isPowerOn ? 'power_settings_new' : null}
+            {this.state.isPowerOn ? 'play_arrow' : null}
+        </i>
+        </button>
         Server 1
       </div>
     </div>;
