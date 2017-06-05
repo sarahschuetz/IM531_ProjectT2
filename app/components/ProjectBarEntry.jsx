@@ -49,12 +49,6 @@ class ProjectBarEntry extends React.Component {
     this.onButtonClick = this.onButtonClick.bind(this);
   }
 
-  count(value) {
-    this.setState({
-      serverNumb: value,
-    });
-  }
-
   onButtonClick() {
     if (!this.state.isPowerOn) {
       this.setState({

@@ -13,6 +13,15 @@ const styles = {
     fontWeight: 300,
     paddingRight: '10px',
   },
+  button: {
+    float: 'left',
+    display: 'block',
+    border: 0,
+    background: 'transparent',
+    color: Theme.colors.FONT_DEFAULT,
+    outline: 'none',
+    cursor: 'pointer',
+  },
 };
 
 class ProjectIconBar extends React.Component {
