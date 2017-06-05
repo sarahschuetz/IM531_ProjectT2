@@ -44,7 +44,6 @@ class ProjectBarEntry extends React.Component {
     super(props);
     this.state = {
       isPowerOn: false,
-      serverNumb: 0,
     };
     this.onButtonClick = this.onButtonClick.bind(this);
   }

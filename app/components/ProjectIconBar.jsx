@@ -1,7 +1,9 @@
 import React from 'react';
-
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Theme from './../theme';
 import ProjectIcon from './ProjectIcon.jsx';
+import { deleteServer } from './../store/actions/server';
 
 const styles = {
   container: {
@@ -14,7 +16,7 @@ const styles = {
     paddingRight: '10px',
   },
   button: {
-    float: 'left',
+    float: 'right',
     display: 'block',
     border: 0,
     background: 'transparent',
@@ -24,15 +26,44 @@ const styles = {
   },
 };
 
+@connect(store => ({
+  currentServerIndex: store.server.currentServerIndex,
+  currentProjectIndex: store.project.currentProjectIndex,
+  server: store.server.list,
+  fileStore: store.server.fileStore,
+  serverIdCounter: store.server.serverIdCounter,
+}))
+
 class ProjectIconBar extends React.Component {
+
+  static propTypes = {
+    currentServerIndex: PropTypes.number,
+    currentProjectIndex: PropTypes.number,
+    server: PropTypes.array,
+    dispatch: PropTypes.func,
+    fileStore: PropTypes.object,
+    serverIdCounter: PropTypes.number,
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = { unsavedChanges: false, serverNumb: 1 };
+    this.deleteServer = this.deleteServer.bind(this);
+  }
+
+  deleteServer() {
+    this.props.dispatch(deleteServer({
+      serverID: this.state.serverNumb,
+    }));
+  }
 
   render() {
     return <div style={styles.container}>
-      <ProjectIcon icon="cached" />
-      <ProjectIcon icon="add" />
-      <ProjectIcon icon="delete_forever" />
-      <ProjectIcon icon="power_settings_new" />
-    </div>;
+          <ProjectIcon icon="cached"/>
+          <ProjectIcon icon="add"/>
+          <button style={styles.button} onClick={() => this.deleteServer()}><ProjectIcon onClick={() => this.deleteServer()} icon="delete_forever"/></button>
+          <ProjectIcon icon="power_settings_new"/>
+        </div>;
   }
 }
 
