@@ -47,7 +47,7 @@ class ProjectIconBar extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { unsavedChanges: false, serverNumb: 1 };
+    this.state = { unsavedChanges: false, serverNumb: 0 };
     this.deleteServer = this.deleteServer.bind(this);
   }
 
