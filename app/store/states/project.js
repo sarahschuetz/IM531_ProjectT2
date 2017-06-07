@@ -3,7 +3,7 @@ import FileStore from 'electron-store';
 const fileStore = new FileStore({
   name: 'project-store',
   defaults: {
-    currentProjectIndex: 0,
+    currentProjectIndex: -1,
     list: [
       {
         name: 'project2',

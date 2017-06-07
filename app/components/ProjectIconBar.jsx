@@ -28,42 +28,38 @@ const styles = {
 
 @connect(store => ({
   currentServerIndex: store.server.currentServerIndex,
-  currentProjectIndex: store.project.currentProjectIndex,
   server: store.server.list,
   fileStore: store.server.fileStore,
-  serverIdCounter: store.server.serverIdCounter,
 }))
 
 class ProjectIconBar extends React.Component {
 
   static propTypes = {
     currentServerIndex: PropTypes.number,
-    currentProjectIndex: PropTypes.number,
     server: PropTypes.array,
     dispatch: PropTypes.func,
     fileStore: PropTypes.object,
-    serverIdCounter: PropTypes.number,
   };
 
   constructor(props) {
     super(props);
-    this.state = { unsavedChanges: false, serverNumb: 0 };
+    this.state = { unsavedChanges: false };
     this.deleteServer = this.deleteServer.bind(this);
   }
 
   deleteServer() {
-    this.props.dispatch(deleteServer({
-      serverID: this.state.serverNumb,
-    }));
+    this.props.dispatch(deleteServer(this.props.currentServerIndex));
   }
 
   render() {
-    return <div style={styles.container}>
-          <ProjectIcon icon="cached"/>
-          <ProjectIcon icon="add"/>
-          <button style={styles.button} onClick={() => this.deleteServer()}><ProjectIcon onClick={() => this.deleteServer()} icon="delete_forever"/></button>
-          <ProjectIcon icon="power_settings_new"/>
-        </div>;
+    if (this.props.currentServerIndex >= 0) {
+      return <div style={styles.container}>
+            <ProjectIcon icon="cached"/>
+            <button style={styles.button} onClick={() => this.deleteServer()}><ProjectIcon onClick={() => this.deleteServer()} icon="delete_forever"/></button>
+            <ProjectIcon icon="power_settings_new"/>
+          </div>;
+    }
+    return <div style={styles.container}></div>;
   }
 }
 

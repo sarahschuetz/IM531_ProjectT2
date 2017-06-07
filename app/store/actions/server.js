@@ -5,11 +5,11 @@ export function addServer(server) {
   };
 }
 
-export function deleteServer(serverId) {
+export function deleteServer(serverIndex) {
   return {
     type: 'DELETE_SERVER',
     payload: {
-      serverId,
+      serverIndex,
     },
   };
 }
@@ -38,6 +38,15 @@ export function stopServer(serverId) {
     type: 'STOP_SERVER',
     payload: {
       serverId,
+    },
+  };
+}
+
+export function setCurrentServerIndex(serverIndex) {
+  return {
+    type: 'SET_INDEX',
+    payload: {
+      serverIndex,
     },
   };
 }

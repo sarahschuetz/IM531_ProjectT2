@@ -18,10 +18,9 @@ export default function reducer(state = State, action) {
       };
     }
     case 'DELETE_SERVER': {
-     // console.log(`PAYLOAD SERVER ID${action.payload.serverId.serverID}`);
       const serverList = [
-        ...state.list.slice(0, action.payload.serverId.serverID),
-        ...state.list.slice(action.payload.serverId.serverID + 1),
+        ...state.list.slice(0, action.payload.serverIndex),
+        ...state.list.slice(action.payload.serverIndex + 1),
       ];
       return {
         ...state,
@@ -38,6 +37,12 @@ export default function reducer(state = State, action) {
     }
     case 'STOP_SERVER': {
       return {
+      };
+    }
+    case 'SET_INDEX': {
+      return {
+        ...state,
+        currentServerIndex: action.payload.serverIndex,
       };
     }
     default: {

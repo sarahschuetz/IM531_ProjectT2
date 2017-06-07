@@ -10,6 +10,7 @@ const fileStore = new FileStore({
 
 const state = {
   ...fileStore.store,
+  currentServerIndex: -1,
   runningServer: 0,
   fileStore,
 };
