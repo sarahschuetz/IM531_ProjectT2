@@ -123,6 +123,7 @@ class ProjectSelector extends React.Component {
     if (this.state.nameInput !== '') {
       this.props.dispatch(addProject({
         name: this.state.nameInput,
+        rootPath: 'TEST/PATH/HERE',
       }));
     }
     this.setState({
@@ -157,7 +158,7 @@ class ProjectSelector extends React.Component {
       inputField = <input type="text"
                               style={styles.input}
                               maxLength="15"
-                              placeholder="server name"
+                              placeholder="project name"
                               onBlur={this.saveNewProject}
                               onChange={this.handleChange}
                               onKeyDown={this.saveChange}
@@ -178,7 +179,8 @@ class ProjectSelector extends React.Component {
 
               {this.props.project.map(project => (
                   <ProjectSelectorEntry key={project.name}
-                                   name={project.name} />
+                                   name={project.name}
+                                   rootPath={project.rootPath}/>
               ))}
 
           <div>{inputField}</div>

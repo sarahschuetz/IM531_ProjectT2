@@ -33,6 +33,7 @@ class ProjectSelectorEntry extends React.Component {
 
   static propTypes = {
     name: PropTypes.string.isRequired,
+    rootPath: PropTypes.string.isRequired,
     project: PropTypes.array,
     fileStore: PropTypes.object,
     dispatch: PropTypes.func,
@@ -42,7 +43,7 @@ class ProjectSelectorEntry extends React.Component {
 
   render() {
     return <div style={styles.container}>
-            <div><i className="material-icons" style={styles.icon}>delete_forever</i>{this.props.name}</div>
+            <div><i className="material-icons" style={styles.icon}>delete_forever</i>{this.props.name}<br/>{this.props.rootPath}</div>
         </div>;
   }
 }

@@ -3,15 +3,19 @@ import State from './../states/project';
 export default function reducer(state = State, action) {
   switch (action.type) {
     case 'ADD_PROJECT': {
-      const projects = {
-        ...state.projects,
-        ...action.payload,
-      };
+      const projectList = [
+        ...state.list,
+        {
+          ...action.payload,
+        },
+      ];
       return {
         ...state,
-        projects,
+        list: projectList,
       };
     }
+
+
     case 'RENAME_PROJECT': {
       return {
       };
