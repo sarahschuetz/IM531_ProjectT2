@@ -3,13 +3,15 @@ import FileStore from 'electron-store';
 const fileStore = new FileStore({
   name: 'project-store',
   defaults: {
-    currentProjectIndex: -1,
+    currentProjectIndex: 0,
     list: [
       {
         name: 'project2',
         rootPath: 'TEST/goes/here/deeper',
+        id: 0,
       },
     ],
+    projectIdCounter: 1,
   },
 });
 

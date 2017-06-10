@@ -7,15 +7,21 @@ export default function reducer(state = State, action) {
         ...state.list,
         {
           ...action.payload,
+          id: state.projectIdCounter,
         },
       ];
       return {
         ...state,
         list: projectList,
+        projectIdCounter: state.projectIdCounter + 1,
       };
     }
-
-
+    case 'SET_INDEX': {
+      return {
+        ...state,
+        currentProjectIndex: action.payload.projectIndex,
+      };
+    }
     case 'RENAME_PROJECT': {
       return {
       };

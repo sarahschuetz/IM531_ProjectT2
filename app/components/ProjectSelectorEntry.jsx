@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Radium from 'radium';
 import React from 'react';
 import Theme from './../theme';
+import { setCurrentProjectIndex } from './../store/actions/project';
 
 const styles = {
   container: {
@@ -13,7 +14,7 @@ const styles = {
     fontFamily: Theme.fonts.MAIN_FONT_FAMILY,
     fontSize: '14px',
     ':hover': {
-      backgroundColor: Theme.colors.EDON_BLUE_LIGHT,
+      backgroundColor: Theme.colors.EDON_BLUE_ULTRA_LIGHT,
     },
   },
   icon: {
@@ -32,6 +33,7 @@ const styles = {
 class ProjectSelectorEntry extends React.Component {
 
   static propTypes = {
+    id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     rootPath: PropTypes.string.isRequired,
     project: PropTypes.array,
@@ -40,10 +42,38 @@ class ProjectSelectorEntry extends React.Component {
     currentProjectIndex: PropTypes.number,
   };
 
+  constructor(props) {
+    super(props);
+    this.selectCurrentProject = this.selectCurrentProject.bind(this);
+  }
+
+  selectCurrentProject() {
+    let index = 0;
+    this.props.project.forEach((project) => {
+      if (project.id === this.props.id) {
+        this.props.dispatch(setCurrentProjectIndex(index));
+      }
+      index += 1;
+    });
+  }
+
+  getContainerStyle() {
+    if (this.props.currentProjectIndex >= 0 &&
+            this.props.project[this.props.currentProjectIndex].id === this.props.id) {
+      return {
+        ...styles.container,
+        backgroundColor: Theme.colors.EDON_BLUE_LIGHT,
+      };
+    }
+    return styles.container;
+  }
+
 
   render() {
-    return <div style={styles.container}>
-            <div><i className="material-icons" style={styles.icon}>delete_forever</i>{this.props.name}<br/>{this.props.rootPath}</div>
+    return <div style={this.getContainerStyle()}
+                key={this.props.id}
+                onClick={this.selectCurrentServer}>
+            <div><i className="material-icons" style={styles.icon}>delete_forever</i>{this.props.name}<br/>{this.props.rootPath} ServerID {this.props.id}</div>
         </div>;
   }
 }

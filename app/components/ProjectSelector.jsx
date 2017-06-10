@@ -102,7 +102,7 @@ class ProjectSelector extends React.Component {
     if (this.props.project !== prevProps.project) {
       this.props.fileStore.set({
         list: this.props.project,
-        serverIdCounter: this.props.projectIdCounter,
+        projectIdCounter: this.props.projectIdCounter,
       });
     }
   }
@@ -158,7 +158,7 @@ class ProjectSelector extends React.Component {
       inputField = <input type="text"
                               style={styles.input}
                               maxLength="15"
-                              placeholder="project name"
+                              placeholder="server name"
                               onBlur={this.saveNewProject}
                               onChange={this.handleChange}
                               onKeyDown={this.saveChange}
@@ -178,9 +178,11 @@ class ProjectSelector extends React.Component {
           <div style={styles.scroll}>
 
               {this.props.project.map(project => (
-                  <ProjectSelectorEntry key={project.name}
+                  <ProjectSelectorEntry key={project.id}
                                    name={project.name}
+                                   id = {project.id}
                                    rootPath={project.rootPath}/>
+
               ))}
 
           <div>{inputField}</div>

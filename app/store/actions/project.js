@@ -32,3 +32,11 @@ export function setProjectRootPath(path) {
     },
   };
 }
+export function setCurrentServerIndex(projectIndex) {
+  return {
+    type: 'SET_INDEX',
+    payload: {
+      projectIndex,
+    },
+  };
+}
