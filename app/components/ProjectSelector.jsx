@@ -28,6 +28,19 @@ const styles = {
     height: `calc(90% - ${Theme.sizes.SYSTEM_BAR_BOTTOM_HEIGHT}px)`,
     fontSize: '14px',
   },
+  addIcon: {
+    float: 'left',
+    marginRight: '5px',
+    fontSize: '16px',
+  },
+  addProj: {
+    fontSize: '12px',
+    color: Theme.colors.EDON_BLUE,
+    margin: '0 auto',
+    paddingTop: '25px',
+    width: '115px',
+    cursor: 'pointer',
+  },
   button: {
     float: 'right',
     display: 'block',
@@ -71,7 +84,8 @@ class ProjectSelector extends React.Component {
     return <div style={styles.container}>
           <div><img src="" /></div>
         <div style={styles.fontPad}>Select Project<button onClick={this.onButtonClick} style={styles.button}> <i className="material-icons" style={styles.icon}>arrow_drop_down</i></button></div>
-        {this.state.fadeIn ? <div style={styles.dropIn}></div> : <div style ={styles.drop}></div>}
+        {this.state.fadeIn ? <div style={styles.dropIn}><div style={styles.addProj}><i className="material-icons" style={styles.addIcon}>add_circle</i>
+          add Project</div></div> : <div style ={styles.drop}></div>}
         </div>;
   }
 

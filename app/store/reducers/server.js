@@ -18,13 +18,9 @@ export default function reducer(state = State, action) {
       };
     }
     case 'DELETE_SERVER': {
-      const serverList = [
-        ...state.list.slice(0, action.payload.serverIndex),
-        ...state.list.slice(action.payload.serverIndex + 1),
-      ];
       return {
         ...state,
-        list: serverList,
+        list: state.list.filter((item, index) => index !== action.payload.serverIndex),
       };
     }
     case 'RENAME_SERVER': {

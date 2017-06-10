@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Theme from './../theme';
 
 const styles = {
@@ -18,13 +17,10 @@ const styles = {
 
 class ProjectItem extends React.Component {
 
-  static propTypes = {
-    icon: PropTypes.string,
-  };
 
   render() {
     return <div style={styles.container}>
-            <div><i className="material-icons" style={styles.icon}>{this.props.icon}</i></div>
+            <div><i className="material-icons" style={styles.icon}>delete_forever</i></div>
         </div>;
   }
 }
