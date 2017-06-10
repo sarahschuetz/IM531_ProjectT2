@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Theme from './../theme';
 import ProjectSelectorEntry from './ProjectSelectorEntry.jsx';
-import { addProject } from './../store/actions/project';
+import { addProject, deleteProject } from './../store/actions/project';
 
 const styles = {
   container: {
@@ -89,6 +89,7 @@ class ProjectSelector extends React.Component {
     this.state = {
       fadeIn: false,
       unsaved: false,
+
     };
 
 
@@ -97,6 +98,7 @@ class ProjectSelector extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.saveChange = this.saveChange.bind(this);
     this.onButtonClick = this.onButtonClick.bind(this);
+    this.deleteProject = this.deleteProject.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -152,6 +154,9 @@ class ProjectSelector extends React.Component {
     this.setState({ nameInput: event.target.value });
   }
 
+  deleteProject() {
+    this.props.dispatch(deleteProject(this.props.currentProjectIndex));
+  }
 
   render() {
     let inputField;
@@ -166,7 +171,6 @@ class ProjectSelector extends React.Component {
                               autoFocus />;
     }
     return <div style={styles.container}>
-
           <div><img src="" /></div>
 
         <div style={styles.fontPad}>Select Project
@@ -187,9 +191,10 @@ class ProjectSelector extends React.Component {
               ))}
 
           <div>{inputField}</div>
-
+          <div style={styles.addProj} onClick={this.deleteProject}><i className="material-icons" style={styles.icon}>delete_forever</i></div>
           <div style={styles.addProj} onClick={this.addProject}><i className="material-icons" style={styles.addIcon}>add_circle</i>
-            add Project</div></div></div>
+            add Project</div>
+            </div></div>
 
           : <div style ={styles.drop}></div>}
 

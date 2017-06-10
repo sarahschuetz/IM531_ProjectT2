@@ -5,6 +5,7 @@ import React from 'react';
 import Theme from './../theme';
 import { setCurrentProjectIndex } from './../store/actions/project';
 
+
 const styles = {
   container: {
     width: `${Theme.sizes.PROJECT_BAR_WIDTH}px`,
@@ -73,8 +74,7 @@ class ProjectSelectorEntry extends React.Component {
     return <div style={this.getContainerStyle()}
                 key={this.props.id}
                 onClick={this.selectCurrentProject}>
-            <div><i className="material-icons" style={styles.icon}>delete_forever</i>{this.props.name}<br/>{this.props.rootPath}</div>
-        </div>;
+           {this.props.name}<br/>{this.props.rootPath}</div>;
   }
 }
 

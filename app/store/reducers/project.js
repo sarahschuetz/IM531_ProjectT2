@@ -14,6 +14,7 @@ export default function reducer(state = State, action) {
         ...state,
         list: projectList,
         projectIdCounter: state.projectIdCounter + 1,
+
       };
     }
     case 'SET_INDEX': {
@@ -28,6 +29,8 @@ export default function reducer(state = State, action) {
     }
     case 'DELETE_PROJECT': {
       return {
+        ...state,
+        list: state.list.filter((item, index) => index !== action.payload.projectId),
       };
     }
     case 'SET_PROJECT_ROOT_PATH': {
