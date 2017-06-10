@@ -32,7 +32,7 @@ export function setProjectRootPath(path) {
     },
   };
 }
-export function setCurrentServerIndex(projectIndex) {
+export function setCurrentProjectIndex(projectIndex) {
   return {
     type: 'SET_INDEX',
     payload: {

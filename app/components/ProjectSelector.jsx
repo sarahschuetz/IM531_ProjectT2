@@ -72,6 +72,7 @@ const styles = {
   currentProjectIndex: store.project.currentProjectIndex,
   project: store.project.list,
   fileStore: store.project.fileStore,
+  projectIdCounter: store.project.projectIdCounter,
 }))
 class ProjectSelector extends React.Component {
 

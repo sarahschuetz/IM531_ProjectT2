@@ -62,7 +62,7 @@ class ProjectSelectorEntry extends React.Component {
             this.props.project[this.props.currentProjectIndex].id === this.props.id) {
       return {
         ...styles.container,
-        backgroundColor: Theme.colors.EDON_BLUE_LIGHT,
+        backgroundColor: Theme.colors.EDON_BLUE_ULTRA_LIGHT,
       };
     }
     return styles.container;
@@ -72,8 +72,8 @@ class ProjectSelectorEntry extends React.Component {
   render() {
     return <div style={this.getContainerStyle()}
                 key={this.props.id}
-                onClick={this.selectCurrentServer}>
-            <div><i className="material-icons" style={styles.icon}>delete_forever</i>{this.props.name}<br/>{this.props.rootPath} ServerID {this.props.id}</div>
+                onClick={this.selectCurrentProject}>
+            <div><i className="material-icons" style={styles.icon}>delete_forever</i>{this.props.name}<br/>{this.props.rootPath}</div>
         </div>;
   }
 }
