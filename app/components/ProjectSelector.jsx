@@ -1,3 +1,5 @@
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import React from 'react';
 import Theme from './../theme';
 
@@ -21,17 +23,24 @@ const styles = {
   },
   dropIn: {
     position: 'absolute',
-    backgroundColor: Theme.colors.WHITE,
+    backgroundColor: Theme.colors.EDON_BLUE_LIGHT,
     fontFamily: Theme.fonts.MAIN_FONT_FAMILY,
-    color: Theme.colors.WHITE,
+    color: Theme.colors.EDON_BLUE_LIGHT,
     width: `${Theme.sizes.PROJECT_BAR_WIDTH}px`,
-    height: `calc(90% - ${Theme.sizes.SYSTEM_BAR_BOTTOM_HEIGHT}px)`,
+    height: `calc(100% - (${Theme.sizes.SYSTEM_BAR_BOTTOM_HEIGHT}px + ${Theme.sizes.HEADER_HEIGHT}px)`,
     fontSize: '14px',
   },
   addIcon: {
     float: 'left',
     marginRight: '5px',
     fontSize: '16px',
+  },
+  scroll: {
+    width: `${Theme.sizes.PROJECT_BAR_WIDTH}px`,
+    height: `calc(100% - ${Theme.sizes.HEADER_HEIGHT + Theme.sizes.PROJECT_ICON_BAR_HEIGHT}px)`,
+    overflowY: 'auto',
+    paddingBottom: '100px',
+    paddingTop: '40px',
   },
   addProj: {
     fontSize: '12px',
@@ -57,13 +66,29 @@ const styles = {
 
 };
 
+@connect(store => ({
+  currentProjectIndex: store.project.currentProjectIndex,
+  project: store.project.list,
+  fileStore: store.project.fileStore,
+}))
 class ProjectSelector extends React.Component {
+
+  static propTypes = {
+    currentProjectIndex: PropTypes.number,
+    dispatch: PropTypes.func,
+    fileStore: PropTypes.object,
+  };
 
   constructor(props) {
     super(props);
     this.state = {
       fadeIn: false,
+      unsaved: false,
     };
+    this.addProject = this.addProject.bind(this);
+    // this.saveNewProject = this.saveNewProject.bind(this);
+    // this.handleChange = this.handleChange.bind(this);
+    // this.saveChange = this.saveChange.bind(this);
     this.onButtonClick = this.onButtonClick.bind(this);
   }
 
@@ -79,14 +104,49 @@ class ProjectSelector extends React.Component {
     }
   }
 
+  addProject() {
+    if (!this.state.newProject) {
+      this.setState({
+        nameInput: '',
+        newProject: true,
+      });
+    }
+  }
+
 
   render() {
+    let inputField;
+    if (this.state.newProject) {
+      inputField = <input type="text"
+                              style={styles.input}
+                              maxLength="15"
+                              placeholder="server name"
+                              onBlur={this.saveNewProject}
+                              onChange={this.handleChange}
+                              onKeyDown={this.saveChange}
+                              autoFocus />;
+    }
     return <div style={styles.container}>
+
           <div><img src="" /></div>
-        <div style={styles.fontPad}>Select Project<button onClick={this.onButtonClick} style={styles.button}> <i className="material-icons" style={styles.icon}>arrow_drop_down</i></button></div>
-        {this.state.fadeIn ? <div style={styles.dropIn}><div style={styles.addProj}><i className="material-icons" style={styles.addIcon}>add_circle</i>
-          add Project</div></div> : <div style ={styles.drop}></div>}
-        </div>;
+
+        <div style={styles.fontPad}>Select Project
+        <button onClick={this.onButtonClick} style={styles.button}>
+        <i className="material-icons" style={styles.icon}>arrow_drop_down</i>
+        </button></div>
+
+        {this.state.fadeIn ? <div style={styles.dropIn}>
+
+          <div style={styles.scroll}>
+
+          <div>{inputField}</div>
+
+          <div style={styles.addProj} onClick={this.addProject}><i className="material-icons" style={styles.addIcon}>add_circle</i>
+            add Project</div></div></div>
+
+          : <div style ={styles.drop}></div>}
+
+          </div>;
   }
 
 
