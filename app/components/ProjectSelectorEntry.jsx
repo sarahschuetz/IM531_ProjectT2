@@ -1,3 +1,6 @@
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import Radium from 'radium';
 import React from 'react';
 import Theme from './../theme';
 
@@ -20,15 +23,28 @@ const styles = {
     marginTop: '-2px',
   },
 };
+@connect(store => ({
+  currentProjectIndex: store.project.currentProjectIndex,
+  project: store.project.list,
+  fileStore: store.project.fileStore,
+}))
+@Radium
+class ProjectSelectorEntry extends React.Component {
 
-class ProjectItem extends React.Component {
+  static propTypes = {
+    name: PropTypes.string.isRequired,
+    project: PropTypes.array,
+    fileStore: PropTypes.object,
+    dispatch: PropTypes.func,
+    currentProjectIndex: PropTypes.number,
+  };
 
 
   render() {
     return <div style={styles.container}>
-            <div><i className="material-icons" style={styles.icon}>delete_forever</i></div>
+            <div><i className="material-icons" style={styles.icon}>delete_forever</i>{this.props.name}</div>
         </div>;
   }
 }
 
-export default ProjectItem;
+export default ProjectSelectorEntry;

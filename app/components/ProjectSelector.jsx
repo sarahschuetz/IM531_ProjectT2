@@ -2,6 +2,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Theme from './../theme';
+import ProjectSelectorEntry from './ProjectSelectorEntry.jsx';
+import { addProject } from './../store/actions/project';
 
 const styles = {
   container: {
@@ -77,6 +79,8 @@ class ProjectSelector extends React.Component {
     currentProjectIndex: PropTypes.number,
     dispatch: PropTypes.func,
     fileStore: PropTypes.object,
+    project: PropTypes.array,
+    projectIdCounter: PropTypes.number,
   };
 
   constructor(props) {
@@ -85,11 +89,22 @@ class ProjectSelector extends React.Component {
       fadeIn: false,
       unsaved: false,
     };
+
+
     this.addProject = this.addProject.bind(this);
-    // this.saveNewProject = this.saveNewProject.bind(this);
-    // this.handleChange = this.handleChange.bind(this);
-    // this.saveChange = this.saveChange.bind(this);
+    this.saveNewProject = this.saveNewProject.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.saveChange = this.saveChange.bind(this);
     this.onButtonClick = this.onButtonClick.bind(this);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.project !== prevProps.project) {
+      this.props.fileStore.set({
+        list: this.props.project,
+        serverIdCounter: this.props.projectIdCounter,
+      });
+    }
   }
 
   onButtonClick() {
@@ -104,6 +119,24 @@ class ProjectSelector extends React.Component {
     }
   }
 
+  saveNewProject() {
+    if (this.state.nameInput !== '') {
+      this.props.dispatch(addProject({
+        name: this.state.nameInput,
+      }));
+    }
+    this.setState({
+      nameInput: '',
+      newServer: false,
+    });
+  }
+
+  saveChange(event) {
+    if (event.keyCode === 13) {
+      this.saveNewProject();
+    }
+  }
+
   addProject() {
     if (!this.state.newProject) {
       this.setState({
@@ -111,6 +144,10 @@ class ProjectSelector extends React.Component {
         newProject: true,
       });
     }
+  }
+
+  handleChange(event) {
+    this.setState({ nameInput: event.target.value });
   }
 
 
@@ -138,6 +175,11 @@ class ProjectSelector extends React.Component {
         {this.state.fadeIn ? <div style={styles.dropIn}>
 
           <div style={styles.scroll}>
+
+              {this.props.project.map(project => (
+                  <ProjectSelectorEntry key={project.name}
+                                   name={project.name} />
+              ))}
 
           <div>{inputField}</div>
 
