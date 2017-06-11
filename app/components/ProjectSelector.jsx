@@ -5,6 +5,8 @@ import Theme from './../theme';
 import ProjectSelectorEntry from './ProjectSelectorEntry.jsx';
 import { addProject, deleteProject } from './../store/actions/project';
 
+const { dialog } = require('electron').remote;
+
 const styles = {
   container: {
     backgroundColor: Theme.colors.EDON_BLUE,
@@ -149,8 +151,15 @@ class ProjectSelector extends React.Component {
     }
     this.setState({
       nameInput: '',
-      newServer: false,
+      newProject: false,
     });
+  }
+
+  openFolder() {
+    dialog.showOpenDialog({ properties: ['openDirectory', 'createDirectory', 'promptToCreate'] },
+            (filePaths) => {
+              console.log(`DUMMY OUTPUT${filePaths}`);
+            });
   }
 
   saveChange(event) {
@@ -214,6 +223,8 @@ class ProjectSelector extends React.Component {
             <div style={styles.addProj} onClick={this.deleteProject}><i className="material-icons" style={styles.addIcon}>delete_forever</i> delete Project</div>
             <div style={styles.addProj} onClick={this.addProject}><i className="material-icons" style={styles.addIcon}>add_circle</i>
               add Project</div>
+            <div style={styles.addProj} onClick={this.openFolder}><i className="material-icons" style={styles.addIcon}>folder</i>
+              Open Project</div>
 
           </div>
 
