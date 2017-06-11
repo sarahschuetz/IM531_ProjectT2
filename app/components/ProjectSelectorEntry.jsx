@@ -8,21 +8,20 @@ import { setCurrentProjectIndex } from './../store/actions/project';
 
 const styles = {
   container: {
-    width: `${Theme.sizes.PROJECT_BAR_WIDTH}px`,
-    height: '50px',
-    padding: '17px 20px',
-    color: Theme.colors.WHITE,
+    width: '100%',
+    padding: '10px 20px',
+    color: Theme.colors.EDON_BLUE_LIGHT,
     fontFamily: Theme.fonts.MAIN_FONT_FAMILY,
     fontSize: '14px',
+    fontWeight: 500,
     ':hover': {
-      backgroundColor: Theme.colors.EDON_BLUE_ULTRA_LIGHT,
+      color: Theme.colors.EDON_BLUE,
     },
   },
-  icon: {
-    float: 'left',
-    marginRight: '10px',
-    fontSize: '22px',
-    marginTop: '-2px',
+  projectPath: {
+    color: Theme.colors.EDON_BLUE_ULTRA_LIGHT,
+    fontSize: '10px',
+    fontWeight: 300,
   },
 };
 @connect(store => ({
@@ -63,18 +62,18 @@ class ProjectSelectorEntry extends React.Component {
             this.props.project[this.props.currentProjectIndex].id === this.props.id) {
       return {
         ...styles.container,
-        backgroundColor: Theme.colors.EDON_BLUE_ULTRA_LIGHT,
+        color: Theme.colors.EDON_BLUE,
       };
     }
     return styles.container;
   }
 
-
   render() {
     return <div style={this.getContainerStyle()}
                 key={this.props.id}
                 onClick={this.selectCurrentProject}>
-           {this.props.name}<br/>{this.props.rootPath}</div>;
+           {this.props.name}<br/>
+           <span style={styles.projectPath}>{this.props.rootPath}</span></div>;
   }
 }
 

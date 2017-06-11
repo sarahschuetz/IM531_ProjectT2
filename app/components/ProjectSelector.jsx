@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Radium from 'radium';
 import React from 'react';
 import Theme from './../theme';
 import ProjectSelectorEntry from './ProjectSelectorEntry.jsx';
@@ -17,18 +18,23 @@ const styles = {
     fontWeight: 300,
     fontSize: '14px',
     letterSpacing: '0.5px',
+    position: 'relative',
+    cursor: 'pointer',
+    padding: '16px',
   },
-  drop: {
-    display: 'none',
+  icon: {
+    float: 'right',
   },
-  dropIn: {
+  dropDown: {
     position: 'absolute',
-    backgroundColor: Theme.colors.EDON_BLUE_LIGHT,
+    top: `${Theme.sizes.HEADER_HEIGHT + 5}px `,
+    left: '15px',
+    backgroundColor: Theme.colors.WHITE,
     fontFamily: Theme.fonts.MAIN_FONT_FAMILY,
     color: Theme.colors.EDON_BLUE_LIGHT,
-    width: `${Theme.sizes.PROJECT_BAR_WIDTH}px`,
-    height: `calc(100% - (${Theme.sizes.SYSTEM_BAR_BOTTOM_HEIGHT}px + ${Theme.sizes.HEADER_HEIGHT}px)`,
+    width: 'calc(100% - 30px)',
     fontSize: '14px',
+    boxShadow: `0px 0px 15px ${Theme.colors.EDON_BLUE_LIGHT}`,
   },
   addIcon: {
     float: 'left',
@@ -36,43 +42,30 @@ const styles = {
     fontSize: '16px',
   },
   scroll: {
-    width: `${Theme.sizes.PROJECT_BAR_WIDTH}px`,
-    height: `calc(55% - ${Theme.sizes.HEADER_HEIGHT + Theme.sizes.PROJECT_ICON_BAR_HEIGHT}px)`,
+    width: '100%',
+    height: '400px',
     overflowY: 'auto',
-    overflowX: 'hidden',
-    paddingBottom: '100px',
-    paddingTop: '40px',
+    paddingBottom: '10px',
+    paddingTop: '10px',
   },
   middle: {
     borderTop: '2px solid',
     borderColor: Theme.colors.EDON_BLUE,
     width: '100%',
-    height: `calc(45% + ${Theme.sizes.HEADER_HEIGHT + Theme.sizes.PROJECT_ICON_BAR_HEIGHT}px)`,
-    overflowY: 'auto',
-    paddingBottom: '100px',
+    paddingTop: '10px',
+    paddingBottom: '20px',
     backgroundColor: Theme.colors.EDON_BLUE_LIGHT,
-    paddingTop: '40px',
   },
   addProj: {
     fontSize: '12px',
     color: Theme.colors.EDON_BLUE,
     margin: '0 auto',
-    paddingTop: '25px',
+    paddingTop: '15px',
     width: '115px',
     cursor: 'pointer',
-  },
-  button: {
-    float: 'right',
-    display: 'block',
-    border: 0,
-    background: 'transparent',
-    color: Theme.colors.FONT_DEFAULT,
-    cursor: 'pointer',
-    outline: 'none',
-    // margin: '16px',
-  },
-  fontPad: {
-    padding: '16px',
+    ':hover': {
+      color: Theme.colors.WHITE,
+    },
   },
   input: {
     color: Theme.colors.EDON_BLUE_LIGHT,
@@ -94,6 +87,7 @@ const styles = {
   fileStore: store.project.fileStore,
   projectIdCounter: store.project.projectIdCounter,
 }))
+@Radium
 class ProjectSelector extends React.Component {
 
   static propTypes = {
@@ -106,18 +100,17 @@ class ProjectSelector extends React.Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
       fadeIn: false,
       unsaved: false,
-
     };
-
 
     this.addProject = this.addProject.bind(this);
     this.saveNewProject = this.saveNewProject.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.saveChange = this.saveChange.bind(this);
-    this.onButtonClick = this.onButtonClick.bind(this);
+    this.openProjectMenu = this.openProjectMenu.bind(this);
     this.deleteProject = this.deleteProject.bind(this);
   }
 
@@ -130,7 +123,7 @@ class ProjectSelector extends React.Component {
     }
   }
 
-  onButtonClick() {
+  openProjectMenu() {
     if (!this.state.fadeIn) {
       this.setState({
         fadeIn: true,
@@ -197,45 +190,40 @@ class ProjectSelector extends React.Component {
                               onKeyDown={this.saveChange}
                               autoFocus />;
     }
-    return <div style={styles.container}>
 
-        <div style={styles.fontPad}>Select Project
-        <button onClick={this.onButtonClick} style={styles.button}>
-        <i className="material-icons" style={styles.icon}>arrow_drop_down</i>
-        </button></div>
+    return <div style={styles.container} onClick={this.openProjectMenu}>
 
-        {this.state.fadeIn ? <div style={styles.dropIn}>
+      <div>Select Project <i className="material-icons" style={styles.icon}>arrow_drop_down</i></div>
 
-          <div style={styles.scroll}>
-
-              {this.props.project.map(project => (
-                  <ProjectSelectorEntry key={project.id}
-                                   name={project.name}
-                                   id = {project.id}
-                                   rootPath={project.rootPath}/>
-
-              ))}
-
+      {this.state.fadeIn ? <div style={styles.dropDown}>
+        <div style={styles.scroll}>
+          {this.props.project.map(project => (
+            <ProjectSelectorEntry key={project.id}
+                              name={project.name}
+                              id = {project.id}
+                              rootPath={project.rootPath}/>
+          ))}
           {inputField}
-
-          </div>
-          <div style={styles.middle}>
-            <div style={styles.addProj} onClick={this.deleteProject}><i className="material-icons" style={styles.addIcon}>delete_forever</i> delete Project</div>
-            <div style={styles.addProj} onClick={this.addProject}><i className="material-icons" style={styles.addIcon}>add_circle</i>
-              add Project</div>
-            <div style={styles.addProj} onClick={this.openFolder}><i className="material-icons" style={styles.addIcon}>folder</i>
-              Open Project</div>
-
-          </div>
-
         </div>
 
-          : <div style ={styles.drop}></div>}
-
-          </div>;
+        <div style={styles.middle}>
+          <div style={styles.addProj} key="delete" onClick={this.deleteProject}>
+            <i className="material-icons" style={styles.addIcon}>delete_forever</i>
+            delete Project
+          </div>
+          <div style={styles.addProj} key="add" onClick={this.addProject}>
+            <i className="material-icons" style={styles.addIcon}>add_circle</i>
+            add Project
+          </div>
+          <div style={styles.addProj} key="open" onClick={this.openFolder}>
+            <i className="material-icons" style={styles.addIcon}>folder</i>
+            Open Project
+          </div>
+        </div>
+        </div>
+      : ''}
+    </div>;
   }
-
-
 }
 
 export default ProjectSelector;
