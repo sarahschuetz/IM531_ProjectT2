@@ -44,6 +44,12 @@ const styles = {
     paddingBottom: '100px',
     paddingTop: '40px',
   },
+  middle: {
+    width: '100%',
+    height: '50%',
+    backgroundColor: Theme.WHITE,
+    margin: '0 auto',
+  },
   addProj: {
     fontSize: '12px',
     color: Theme.colors.EDON_BLUE,
@@ -64,6 +70,16 @@ const styles = {
   },
   fontPad: {
     padding: '16px',
+  },
+  input: {
+    color: Theme.colors.EDON_BLUE_LIGHT,
+    fontFamily: Theme.fonts.MAIN_FONT_FAMILY,
+    padding: '10px',
+    marginLeft: '55px',
+    border: 'none',
+    fontSize: '13px',
+    width: '200px',
+    fontWeight: 400,
   },
 
 };
@@ -164,14 +180,13 @@ class ProjectSelector extends React.Component {
       inputField = <input type="text"
                               style={styles.input}
                               maxLength="15"
-                              placeholder="server name"
+                              placeholder="Project Name"
                               onBlur={this.saveNewProject}
                               onChange={this.handleChange}
                               onKeyDown={this.saveChange}
                               autoFocus />;
     }
     return <div style={styles.container}>
-          <div><img src="" /></div>
 
         <div style={styles.fontPad}>Select Project
         <button onClick={this.onButtonClick} style={styles.button}>
@@ -190,13 +205,14 @@ class ProjectSelector extends React.Component {
 
               ))}
 
-          <div>{inputField}</div>
+          {inputField}
           <div style={styles.addProj} onClick={this.deleteProject}><i className="material-icons" style={styles.icon}>delete_forever</i></div>
           <div style={styles.addProj} onClick={this.addProject}><i className="material-icons" style={styles.addIcon}>add_circle</i>
             add Project</div>
             </div></div>
 
           : <div style ={styles.drop}></div>}
+      <div style ={styles.middle}></div>
 
           </div>;
   }
