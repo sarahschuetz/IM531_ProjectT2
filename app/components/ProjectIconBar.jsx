@@ -24,6 +24,10 @@ const styles = {
     outline: 'none',
     cursor: 'pointer',
   },
+  deleteSever: {
+    margin: '0 auto',
+    cursor: 'pointer',
+  },
 };
 
 @connect(store => ({
@@ -55,7 +59,7 @@ class ProjectIconBar extends React.Component {
     if (this.props.currentServerIndex >= 0) {
       return <div style={styles.container}>
             <ProjectIcon icon="cached"/>
-            <button style={styles.button} onClick={() => this.deleteServer()}><ProjectIcon onClick={() => this.deleteServer()} icon="delete_forever"/></button>
+        <div style={styles.deleteSever} onClick={() => this.deleteServer()}><ProjectIcon icon="delete_forever"/></div>
             <ProjectIcon icon="power_settings_new"/>
           </div>;
     }

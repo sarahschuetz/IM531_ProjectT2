@@ -16,6 +16,7 @@ const styles = {
     color: Theme.colors.WHITE,
     fontFamily: Theme.fonts.MAIN_FONT_FAMILY,
     fontSize: '14px',
+    fontWeight: '300',
   },
   scroll: {
     width: `${Theme.sizes.PROJECT_BAR_WIDTH}px`,

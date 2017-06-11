@@ -10,15 +10,11 @@ const styles = {
     backgroundColor: Theme.colors.EDON_BLUE,
     width: '100%',
     height: `${Theme.sizes.HEADER_HEIGHT}px`,
-    // padding: '16px',
     fontFamily: Theme.fonts.MAIN_FONT_FAMILY,
     color: Theme.colors.FONT_DEFAULT,
     fontWeight: 300,
     fontSize: '14px',
     letterSpacing: '0.5px',
-  },
-  icon: {
-    float: 'right',
   },
   drop: {
     display: 'none',
@@ -39,16 +35,21 @@ const styles = {
   },
   scroll: {
     width: `${Theme.sizes.PROJECT_BAR_WIDTH}px`,
-    height: `calc(100% - ${Theme.sizes.HEADER_HEIGHT + Theme.sizes.PROJECT_ICON_BAR_HEIGHT}px)`,
+    height: `calc(55% - ${Theme.sizes.HEADER_HEIGHT + Theme.sizes.PROJECT_ICON_BAR_HEIGHT}px)`,
     overflowY: 'auto',
+    overflowX: 'hidden',
     paddingBottom: '100px',
     paddingTop: '40px',
   },
   middle: {
+    borderTop: '2px solid',
+    borderColor: Theme.colors.EDON_BLUE,
     width: '100%',
-    height: '50%',
-    backgroundColor: Theme.WHITE,
-    margin: '0 auto',
+    height: `calc(45% + ${Theme.sizes.HEADER_HEIGHT + Theme.sizes.PROJECT_ICON_BAR_HEIGHT}px)`,
+    overflowY: 'auto',
+    paddingBottom: '100px',
+    backgroundColor: Theme.colors.EDON_BLUE_LIGHT,
+    paddingTop: '40px',
   },
   addProj: {
     fontSize: '12px',
@@ -76,6 +77,7 @@ const styles = {
     fontFamily: Theme.fonts.MAIN_FONT_FAMILY,
     padding: '10px',
     marginLeft: '55px',
+    marginTop: '25px',
     border: 'none',
     fontSize: '13px',
     width: '200px',
@@ -206,13 +208,18 @@ class ProjectSelector extends React.Component {
               ))}
 
           {inputField}
-          <div style={styles.addProj} onClick={this.deleteProject}><i className="material-icons" style={styles.icon}>delete_forever</i></div>
-          <div style={styles.addProj} onClick={this.addProject}><i className="material-icons" style={styles.addIcon}>add_circle</i>
-            add Project</div>
-            </div></div>
+
+          </div>
+          <div style={styles.middle}>
+            <div style={styles.addProj} onClick={this.deleteProject}><i className="material-icons" style={styles.addIcon}>delete_forever</i> delete Project</div>
+            <div style={styles.addProj} onClick={this.addProject}><i className="material-icons" style={styles.addIcon}>add_circle</i>
+              add Project</div>
+
+          </div>
+
+        </div>
 
           : <div style ={styles.drop}></div>}
-      <div style ={styles.middle}></div>
 
           </div>;
   }
