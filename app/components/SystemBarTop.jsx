@@ -65,13 +65,15 @@ class SystemBarTop extends React.Component {
   }
 
   render() {
+    const project = (this.props.project) ? this.props.project.rootPath : '';
+
     return <div style={styles.container}>
       <TextInput label="Project root"
                  placeholder="path/to/project/root"
                  backgroundLight={true}
                  icon='folder'
                  iconClickHandler={this.openFolder}
-                 value={this.props.project.rootPath}
+                 value={project}
                  handleChange={this.handleChange} />
     </div>;
   }
