@@ -26,7 +26,7 @@ const styles = {
 };
 @connect(store => ({
   currentProjectIndex: store.project.currentProjectIndex,
-  project: store.project.list,
+  projects: store.project.list,
   fileStore: store.project.fileStore,
 }))
 @Radium
@@ -36,10 +36,11 @@ class ProjectSelectorEntry extends React.Component {
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     rootPath: PropTypes.string.isRequired,
-    project: PropTypes.array,
+    projects: PropTypes.array,
     fileStore: PropTypes.object,
     dispatch: PropTypes.func,
     currentProjectIndex: PropTypes.number,
+    clickHandler: PropTypes.func,
   };
 
   constructor(props) {
@@ -49,17 +50,20 @@ class ProjectSelectorEntry extends React.Component {
 
   selectCurrentProject() {
     let index = 0;
-    this.props.project.forEach((project) => {
+    this.props.projects.forEach((project) => {
       if (project.id === this.props.id) {
         this.props.dispatch(setCurrentProjectIndex(index));
       }
       index += 1;
     });
+    this.props.clickHandler();
   }
 
   getContainerStyle() {
+    console.log('projects', this.props.projects);
+    console.log('index', this.props.currentProjectIndex);
     if (this.props.currentProjectIndex >= 0 &&
-            this.props.project[this.props.currentProjectIndex].id === this.props.id) {
+        this.props.projects[this.props.currentProjectIndex].id === this.props.id) {
       return {
         ...styles.container,
         color: Theme.colors.EDON_BLUE,

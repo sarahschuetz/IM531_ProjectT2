@@ -4,7 +4,7 @@ import Radium from 'radium';
 import React from 'react';
 import Theme from './../theme';
 import ProjectSelectorEntry from './ProjectSelectorEntry.jsx';
-import { addProject, deleteProject } from './../store/actions/project';
+import { addProject, deleteProject, setCurrentProjectIndex } from './../store/actions/project';
 
 const { dialog } = require('electron').remote;
 
@@ -20,6 +20,9 @@ const styles = {
     letterSpacing: '0.5px',
     position: 'relative',
     cursor: 'pointer',
+  },
+  noSelect: {
+    userSelect: 'none',
     padding: '16px',
   },
   icon: {
@@ -47,6 +50,9 @@ const styles = {
     overflowY: 'auto',
     paddingBottom: '10px',
     paddingTop: '10px',
+    '::-webkitScrollbar': {
+      display: 'none',
+    },
   },
   middle: {
     borderTop: '2px solid',
@@ -83,7 +89,7 @@ const styles = {
 
 @connect(store => ({
   currentProjectIndex: store.project.currentProjectIndex,
-  project: store.project.list,
+  projects: store.project.list,
   fileStore: store.project.fileStore,
   projectIdCounter: store.project.projectIdCounter,
 }))
@@ -94,7 +100,7 @@ class ProjectSelector extends React.Component {
     currentProjectIndex: PropTypes.number,
     dispatch: PropTypes.func,
     fileStore: PropTypes.object,
-    project: PropTypes.array,
+    projects: PropTypes.array,
     projectIdCounter: PropTypes.number,
   };
 
@@ -110,20 +116,23 @@ class ProjectSelector extends React.Component {
     this.saveNewProject = this.saveNewProject.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.saveChange = this.saveChange.bind(this);
-    this.openProjectMenu = this.openProjectMenu.bind(this);
+    this.toggleProjectMenu = this.toggleProjectMenu.bind(this);
     this.deleteProject = this.deleteProject.bind(this);
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.project !== prevProps.project) {
+    if (this.props.projects !== prevProps.projects) {
       this.props.fileStore.set({
-        list: this.props.project,
+        list: this.props.projects,
         projectIdCounter: this.props.projectIdCounter,
       });
+      this.props.dispatch(setCurrentProjectIndex(
+        this.props.projects.length - 1,
+      ));
     }
   }
 
-  openProjectMenu() {
+  toggleProjectMenu() {
     if (!this.state.fadeIn) {
       this.setState({
         fadeIn: true,
@@ -141,6 +150,7 @@ class ProjectSelector extends React.Component {
         name: this.state.nameInput,
         rootPath: 'TEST/PATH/HERE',
       }));
+      this.toggleProjectMenu();
     }
     this.setState({
       nameInput: '',
@@ -176,32 +186,36 @@ class ProjectSelector extends React.Component {
 
   deleteProject() {
     this.props.dispatch(deleteProject(this.props.currentProjectIndex));
+    this.props.dispatch(setCurrentProjectIndex(-1));
   }
 
   render() {
     let inputField;
     if (this.state.newProject) {
       inputField = <input type="text"
-                              style={styles.input}
-                              maxLength="15"
-                              placeholder="Project Name"
-                              onBlur={this.saveNewProject}
-                              onChange={this.handleChange}
-                              onKeyDown={this.saveChange}
-                              autoFocus />;
+                          style={styles.input}
+                          maxLength="15"
+                          placeholder="Project Name"
+                          onBlur={this.saveNewProject}
+                          onChange={this.handleChange}
+                          onKeyDown={this.saveChange}
+                          autoFocus />;
     }
 
-    return <div style={styles.container} onClick={this.openProjectMenu}>
+    return <div style={styles.container}>
+      <div style={styles.noSelect} onClick={this.toggleProjectMenu}>
+        Select Project
+        <i className="material-icons" style={styles.icon}>arrow_drop_down</i>
+      </div>
 
-      <div>Select Project <i className="material-icons" style={styles.icon}>arrow_drop_down</i></div>
-
-      {this.state.fadeIn ? <div style={styles.dropDown}>
+      {this.state.fadeIn ? <div style={styles.dropDown} onBlur={this.toggleProjectMenu}>
         <div style={styles.scroll}>
-          {this.props.project.map(project => (
+          {this.props.projects.map(project => (
             <ProjectSelectorEntry key={project.id}
-                              name={project.name}
-                              id = {project.id}
-                              rootPath={project.rootPath}/>
+                                  name={project.name}
+                                  id = {project.id}
+                                  rootPath={project.rootPath}
+                                  clickHandler={this.toggleProjectMenu}/>
           ))}
           {inputField}
         </div>
@@ -217,7 +231,7 @@ class ProjectSelector extends React.Component {
           </div>
           <div style={styles.addProj} key="open" onClick={this.openFolder}>
             <i className="material-icons" style={styles.addIcon}>folder</i>
-            Open Project
+            open Project
           </div>
         </div>
         </div>
