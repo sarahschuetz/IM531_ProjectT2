@@ -192,6 +192,7 @@ class ProjectSelector extends React.Component {
   }
 
   render() {
+    const projectS = (this.props.project) ? this.props.project.name : 'Select Project';
     let inputField;
     if (this.state.newProject) {
       inputField = <input type="text"
@@ -206,10 +207,9 @@ class ProjectSelector extends React.Component {
 
     return <div style={styles.container}>
       <div style={styles.noSelect} onClick={this.toggleProjectMenu}>
-          {isNaN(this.props.project.name) ? this.props.project.name : 'select Project'}
+          {projectS}
         <i className="material-icons" style={styles.icon}>arrow_drop_down</i>
       </div>
-
       {this.state.fadeIn ? <div style={styles.dropDown} onBlur={this.toggleProjectMenu}>
         <div style={styles.scroll}>
           {this.props.projects.map(project => (
