@@ -1,8 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Radium from 'radium';
+import _ from 'underscore';
 import Theme from './../theme';
 import Console from './../components/Console.jsx';
 import TextInput from './../components/TextInput.jsx';
+import { setCommand } from './../store/actions/server';
 
 const styles = {
   container: {
@@ -39,19 +43,57 @@ const styles = {
   },
 };
 
+@connect(store => ({
+  serverlist: store.server.list,
+  server: store.server.list[store.server.currentServerIndex],
+  fileStore: store.server.fileStore,
+}))
 @Radium
 class ServerWindow extends React.Component {
 
+  static propTypes = {
+    serverlist: PropTypes.array,
+    server: PropTypes.object,
+    dispatch: PropTypes.func,
+    fileStore: PropTypes.object,
+  };
+
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  componentWillMount() {
+    this.saveChange = _.debounce(this.saveChange, 2000);
+  }
+
+  handleChange(event) {
+    this.props.dispatch(setCommand(event.target.value));
+    this.saveChange();
+  }
+
+  saveChange() {
+    this.props.fileStore.set('list', this.props.serverlist);
+  }
+
   render() {
-    return <div style={styles.container}>
-      <div style={styles.settings}>
-        <i className="material-icons" style={styles.icon}>power_settings_new</i>
-        <div style={styles.input}>
-          <TextInput label="Command" placeholder="npm start" />
+    if (this.props.server) {
+      const server = this.props.server.command;
+
+      return <div style={styles.container}>
+        <div style={styles.settings}>
+          <i className="material-icons" style={styles.icon}>power_settings_new</i>
+          <div style={styles.input}>
+            <TextInput label="Command"
+                       placeholder="npm start"
+                       value={server}
+                       handleChange={this.handleChange} />
+          </div>
         </div>
-      </div>
-      <Console />
-    </div>;
+        <Console />
+      </div>;
+    }
+    return <div style={styles.container}></div>;
   }
 }
 

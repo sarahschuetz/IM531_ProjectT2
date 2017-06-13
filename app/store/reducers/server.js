@@ -41,6 +41,19 @@ export default function reducer(state = State, action) {
         currentServerIndex: action.payload.serverIndex,
       };
     }
+    case 'SET_COMMAND': {
+      const serverList = [
+        ...state.list,
+      ];
+      serverList[state.currentServerIndex] = {
+        ...serverList[state.currentServerIndex],
+        command: action.payload.command,
+      };
+      return {
+        ...state,
+        list: serverList,
+      };
+    }
     default: {
       return state;
     }

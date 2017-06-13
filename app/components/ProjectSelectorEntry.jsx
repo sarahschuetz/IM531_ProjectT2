@@ -4,6 +4,7 @@ import Radium from 'radium';
 import React from 'react';
 import Theme from './../theme';
 import { setCurrentProjectIndex } from './../store/actions/project';
+import { setCurrentServerIndex } from './../store/actions/server';
 
 
 const styles = {
@@ -53,6 +54,7 @@ class ProjectSelectorEntry extends React.Component {
     this.props.projects.forEach((project) => {
       if (project.id === this.props.id) {
         this.props.dispatch(setCurrentProjectIndex(index));
+        this.props.dispatch(setCurrentServerIndex(-1));
       }
       index += 1;
     });

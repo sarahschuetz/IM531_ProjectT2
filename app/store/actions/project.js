@@ -32,6 +32,7 @@ export function setProjectRootPath(path) {
     },
   };
 }
+
 export function setCurrentProjectIndex(projectIndex) {
   return {
     type: 'SET_PROJECT_INDEX',

@@ -42,6 +42,15 @@ export function stopServer(serverId) {
   };
 }
 
+export function setCommand(command) {
+  return {
+    type: 'SET_COMMAND',
+    payload: {
+      command,
+    },
+  };
+}
+
 export function setCurrentServerIndex(serverIndex) {
   return {
     type: 'SET_SERVER_INDEX',

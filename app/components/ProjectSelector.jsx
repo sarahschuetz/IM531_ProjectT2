@@ -128,9 +128,16 @@ class ProjectSelector extends React.Component {
         list: this.props.projects,
         projectIdCounter: this.props.projectIdCounter,
       });
-      this.props.dispatch(setCurrentProjectIndex(
-        this.props.projects.length - 1,
-      ));
+
+      if (this.props.projects.length < prevProps.projects.length) { // project was deleted
+        this.props.dispatch(setCurrentProjectIndex(-1));
+      } else if (this.props.projects.length > prevProps.projects.length) { // project was added
+        this.props.dispatch(setCurrentProjectIndex(this.props.projects.length - 1));
+      }
+    }
+
+    if (this.props.currentProjectIndex !== prevProps.currentProjectIndex) {
+      this.props.fileStore.set({ currentProjectIndex: this.props.currentProjectIndex });
     }
   }
 
@@ -150,7 +157,7 @@ class ProjectSelector extends React.Component {
     if (this.state.nameInput !== '') {
       this.props.dispatch(addProject({
         name: this.state.nameInput,
-        rootPath: 'TEST/PATH/HERE',
+        rootPath: '',
       }));
       this.toggleProjectMenu();
     }
@@ -223,10 +230,12 @@ class ProjectSelector extends React.Component {
         </div>
 
         <div style={styles.middle}>
-          <div style={styles.addProj} key="delete" onClick={this.deleteProject}>
-            <i className="material-icons" style={styles.addIcon}>delete_forever</i>
-            delete Project
-          </div>
+          {this.props.currentProjectIndex >= 0 ?
+            <div style={styles.addProj} key="delete" onClick={this.deleteProject}>
+              <i className="material-icons" style={styles.addIcon}>delete_forever</i>
+              delete Project
+            </div>
+          : '' }
           <div style={styles.addProj} key="add" onClick={this.addProject}>
             <i className="material-icons" style={styles.addIcon}>add_circle</i>
             add Project

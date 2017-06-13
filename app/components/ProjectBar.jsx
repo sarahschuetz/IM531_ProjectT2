@@ -5,7 +5,7 @@ import ProjectBarEntry from './ProjectBarEntry.jsx';
 import ProjectIconBar from './ProjectIconBar.jsx';
 import ProjectSelector from './ProjectSelector.jsx';
 import Theme from './../theme';
-import { addServer } from './../store/actions/server';
+import { addServer, setCurrentServerIndex } from './../store/actions/server';
 
 const styles = {
   container: {
@@ -41,6 +41,7 @@ const styles = {
   input: {
     padding: '10px',
     marginLeft: '55px',
+    marginTop: '10px',
     border: 'none',
     color: Theme.colors.EDON_BLUE_LIGHT,
     fontFamily: Theme.fonts.MAIN_FONT_FAMILY,
@@ -80,12 +81,18 @@ class ProjectBar extends React.Component {
     this.checkProjectId = this.checkProjectId.bind(this);
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.props.server !== prevProps.server) {
+  componentWillUpdate(nextProps) {
+    if (this.props.server !== nextProps.server) {
       this.props.fileStore.set({
         list: this.props.server,
         serverIdCounter: this.props.serverIdCounter,
       });
+
+      if (this.props.server.length > nextProps.server.length) { // server was deleted
+        this.props.dispatch(setCurrentServerIndex(-1));
+      } else if (this.props.server.length < nextProps.server.length) { // project was added
+        this.props.dispatch(setCurrentServerIndex(nextProps.server.length - 1));
+      }
     }
   }
 
@@ -102,7 +109,7 @@ class ProjectBar extends React.Component {
     if (this.state.nameInput !== '') {
       this.props.dispatch(addServer({
         name: this.state.nameInput,
-        projectId: this.props.server[this.props.currentProjectIndex].id,
+        projectId: this.props.projects[this.props.currentProjectIndex].id,
       }));
     }
     this.setState({
@@ -129,39 +136,45 @@ class ProjectBar extends React.Component {
   }
 
   render() {
-    let inputField;
-    if (this.state.newServer) {
-      inputField = <input type="text"
-                          style={styles.input}
-                          maxLength="15"
-                          placeholder="server name"
-                          onBlur={this.saveNewServer}
-                          onChange={this.handleChange}
-                          onKeyDown={this.saveChange}
-                          autoFocus />;
-    }
+    if (this.props.currentProjectIndex >= 0) {
+      let inputField;
+      if (this.state.newServer) {
+        inputField = <input type="text"
+                            style={styles.input}
+                            maxLength="15"
+                            placeholder="server name"
+                            onBlur={this.saveNewServer}
+                            onChange={this.handleChange}
+                            onKeyDown={this.saveChange}
+                            autoFocus />;
+      }
 
+      return <div style={styles.container}>
+        <ProjectSelector/>
+        <ProjectIconBar/>
+
+        <div style={styles.scroll}>
+          {this.props.server.filter(this.checkProjectId).map(server => (
+            <ProjectBarEntry key={server.id}
+              id={server.id}
+              name={server.name} />
+          ))}
+
+          <div>
+            {inputField}
+          </div>
+
+          <div style={styles.addServer} onClick={this.addServer}>
+            <i className="material-icons" style={styles.icon}>add_circle</i>
+            add new Server
+          </div>
+
+        </div>
+      </div>;
+    }
     return <div style={styles.container}>
       <ProjectSelector/>
       <ProjectIconBar/>
-
-      <div style={styles.scroll}>
-        {this.props.server.filter(this.checkProjectId).map(server => (
-          <ProjectBarEntry key={server.id}
-            id={server.id}
-            name={server.name} />
-        ))}
-
-        <div>
-          {inputField}
-        </div>
-
-        <div style={styles.addServer} onClick={this.addServer}>
-          <i className="material-icons" style={styles.icon}>add_circle</i>
-          add new Server
-        </div>
-
-      </div>
     </div>;
   }
 }

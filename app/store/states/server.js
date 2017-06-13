@@ -4,7 +4,7 @@ const fileStore = new FileStore({
   name: 'server-store',
   defaults: {
     list: [],
-    serverIdCounter: 0,
+    serverIdCounter: 1,
   },
 });
 
