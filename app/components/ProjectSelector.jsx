@@ -90,6 +90,7 @@ const styles = {
 @connect(store => ({
   currentProjectIndex: store.project.currentProjectIndex,
   projects: store.project.list,
+  project: store.project.list[store.project.currentProjectIndex],
   fileStore: store.project.fileStore,
   projectIdCounter: store.project.projectIdCounter,
 }))
@@ -100,6 +101,7 @@ class ProjectSelector extends React.Component {
     currentProjectIndex: PropTypes.number,
     dispatch: PropTypes.func,
     fileStore: PropTypes.object,
+    project: PropTypes.object,
     projects: PropTypes.array,
     projectIdCounter: PropTypes.number,
   };
@@ -204,7 +206,7 @@ class ProjectSelector extends React.Component {
 
     return <div style={styles.container}>
       <div style={styles.noSelect} onClick={this.toggleProjectMenu}>
-        Select Project
+          {isNaN(this.props.project.name) ? this.props.project.name : 'select Project'}
         <i className="material-icons" style={styles.icon}>arrow_drop_down</i>
       </div>
 
