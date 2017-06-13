@@ -44,7 +44,7 @@ export function stopServer(serverId) {
 
 export function setCurrentServerIndex(serverIndex) {
   return {
-    type: 'SET_INDEX',
+    type: 'SET_SERVER_INDEX',
     payload: {
       serverIndex,
     },

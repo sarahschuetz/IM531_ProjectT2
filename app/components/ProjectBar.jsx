@@ -54,6 +54,7 @@ const styles = {
   currentServerIndex: store.server.currentServerIndex,
   currentProjectIndex: store.project.currentProjectIndex,
   server: store.server.list,
+  projects: store.project.list,
   fileStore: store.server.fileStore,
   serverIdCounter: store.server.serverIdCounter,
 }))
@@ -63,6 +64,7 @@ class ProjectBar extends React.Component {
     currentServerIndex: PropTypes.number,
     currentProjectIndex: PropTypes.number,
     server: PropTypes.array,
+    projects: PropTypes.array,
     dispatch: PropTypes.func,
     fileStore: PropTypes.object,
     serverIdCounter: PropTypes.number,
@@ -75,6 +77,7 @@ class ProjectBar extends React.Component {
     this.saveNewServer = this.saveNewServer.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.saveChange = this.saveChange.bind(this);
+    this.checkProjectId = this.checkProjectId.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -99,7 +102,7 @@ class ProjectBar extends React.Component {
     if (this.state.nameInput !== '') {
       this.props.dispatch(addServer({
         name: this.state.nameInput,
-        projectIndex: this.props.currentProjectIndex,
+        projectId: this.props.server[this.props.currentProjectIndex].id,
       }));
     }
     this.setState({
@@ -116,6 +119,13 @@ class ProjectBar extends React.Component {
     if (event.keyCode === 13) {
       this.saveNewServer();
     }
+  }
+
+  checkProjectId(server) {
+    if (this.props.projects[this.props.currentProjectIndex]) {
+      return server.projectId === this.props.projects[this.props.currentProjectIndex].id;
+    }
+    return false;
   }
 
   render() {
@@ -136,7 +146,7 @@ class ProjectBar extends React.Component {
       <ProjectIconBar/>
 
       <div style={styles.scroll}>
-        {this.props.server.map(server => (
+        {this.props.server.filter(this.checkProjectId).map(server => (
           <ProjectBarEntry key={server.id}
             id={server.id}
             name={server.name} />

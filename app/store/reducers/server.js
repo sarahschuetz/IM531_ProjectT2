@@ -35,7 +35,7 @@ export default function reducer(state = State, action) {
       return {
       };
     }
-    case 'SET_INDEX': {
+    case 'SET_SERVER_INDEX': {
       return {
         ...state,
         currentServerIndex: action.payload.serverIndex,

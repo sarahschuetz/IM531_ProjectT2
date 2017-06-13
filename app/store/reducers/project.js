@@ -17,7 +17,7 @@ export default function reducer(state = State, action) {
 
       };
     }
-    case 'SET_INDEX': {
+    case 'SET_PROJECT_INDEX': {
       return {
         ...state,
         currentProjectIndex: action.payload.projectIndex,

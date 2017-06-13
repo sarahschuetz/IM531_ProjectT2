@@ -34,7 +34,7 @@ export function setProjectRootPath(path) {
 }
 export function setCurrentProjectIndex(projectIndex) {
   return {
-    type: 'SET_INDEX',
+    type: 'SET_PROJECT_INDEX',
     payload: {
       projectIndex,
     },

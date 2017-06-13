@@ -60,8 +60,6 @@ class ProjectSelectorEntry extends React.Component {
   }
 
   getContainerStyle() {
-    console.log('projects', this.props.projects);
-    console.log('index', this.props.currentProjectIndex);
     if (this.props.currentProjectIndex >= 0 &&
         this.props.projects[this.props.currentProjectIndex].id === this.props.id) {
       return {
