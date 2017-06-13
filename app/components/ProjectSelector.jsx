@@ -77,12 +77,12 @@ const styles = {
     color: Theme.colors.EDON_BLUE_LIGHT,
     fontFamily: Theme.fonts.MAIN_FONT_FAMILY,
     padding: '10px',
-    marginLeft: '55px',
-    marginTop: '25px',
-    border: 'none',
+    marginLeft: '15px',
+    marginTop: '5px',
     fontSize: '13px',
-    width: '200px',
+    width: '240px',
     fontWeight: 400,
+    border: `solid 1px ${Theme.colors.EDON_BLUE_LIGHT}`,
   },
 
 };
