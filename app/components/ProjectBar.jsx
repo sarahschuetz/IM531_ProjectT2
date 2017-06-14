@@ -84,8 +84,8 @@ class ProjectBar extends React.Component {
   componentWillUpdate(nextProps) {
     if (this.props.server !== nextProps.server) {
       this.props.fileStore.set({
-        list: this.props.server,
-        serverIdCounter: this.props.serverIdCounter,
+        list: nextProps.server,
+        serverIdCounter: nextProps.serverIdCounter,
       });
 
       if (this.props.server.length > nextProps.server.length) { // server was deleted
