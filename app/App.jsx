@@ -44,7 +44,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       settingsActive: false,
-      serverActive: false,
+      serverActive: true,
       errorActive: false,
     };
     // this.onButtonClick = this.onButtonClick.bind(this);
