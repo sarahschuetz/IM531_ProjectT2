@@ -43,7 +43,7 @@ class Console extends React.Component {
     super(props);
 
     this.state = {
-      command: spawn('webpack', ['--watch'], { shell: true }),
+      command: spawn('webpack --watch', [], { shell: true }),
       messages: [],
       consoleIsEmpty: true,
     };
