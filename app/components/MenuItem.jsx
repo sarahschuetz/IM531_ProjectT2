@@ -14,8 +14,7 @@ const styles = {
   },
   icon: {
     fontSize: '30px',
-    color: Theme.colors.EDON_BLUE_LIGHT,
-    backgroundColor: '#00ff00',
+    color: Theme.colors.EDON_BLUE,
   },
   icon2: {
     fontSize: '30px',
