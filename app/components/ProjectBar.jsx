@@ -110,6 +110,8 @@ class ProjectBar extends React.Component {
       this.props.dispatch(addServer({
         name: this.state.nameInput,
         projectId: this.props.projects[this.props.currentProjectIndex].id,
+        isRunning: false,
+        processPID: null,
       }));
     }
     this.setState({

@@ -2,8 +2,6 @@ import React from 'react';
 import Theme from './../theme';
 import ConsoleMessage from './ConsoleMessage.jsx';
 
-const spawn = require('child_process').spawn;
-
 const styles = {
   container: {
     backgroundColor: Theme.colors.console.BACKGROUND,
@@ -43,7 +41,6 @@ class Console extends React.Component {
     super(props);
 
     this.state = {
-      command: spawn('webpack --watch', [], { shell: true }),
       messages: [],
       consoleIsEmpty: true,
     };
@@ -67,18 +64,18 @@ class Console extends React.Component {
   }
 
   componentWillMount() {
-    this.state.command.stdout.on('data', (data) => {
-      this.setState(state => ({
-        messages: state.messages.concat(<ConsoleMessage data={`${data}`}
-                                                  key={this.state.messages.length}
-                                                  color={Theme.colors.console.INFO_COLOR} />),
-        consoleIsEmpty: false,
-      }));
-    });
+    // this.state.command.stdout.on('data', (data) => {
+    //   this.setState(state => ({
+    //     messages: state.messages.concat(<ConsoleMessage data={`${data}`}
+    //                                               key={this.state.messages.length}
+    //                                               color={Theme.colors.console.INFO_COLOR} />),
+    //     consoleIsEmpty: false,
+    //   }));
+    // });
   }
 
   componentWillUnmount() {
-    this.state.command.stdout.removeAllListeners();
+    // this.state.command.stdout.removeAllListeners();
   }
 
   clearConsole = () => {

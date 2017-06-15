@@ -23,16 +23,35 @@ export default function reducer(state = State, action) {
         list: state.list.filter((item, index) => index !== action.payload.serverIndex),
       };
     }
-    case 'RENAME_SERVER': {
-      return {
+    case 'START_SERVER': {
+      const serverList = [
+        ...state.list,
+      ];
+      serverList[state.currentServerIndex] = {
+        ...serverList[state.currentServerIndex],
+        processPID: action.payload.pid,
+        isRunning: true,
       };
-    }
-    case 'RESTART_SERVER': {
+
       return {
+        ...state,
+        list: serverList,
+        runningServer: state.runningServer + 1,
       };
     }
     case 'STOP_SERVER': {
+      const serverList = [
+        ...state.list,
+      ];
+      serverList[state.currentServerIndex] = {
+        ...serverList[state.currentServerIndex],
+        processPID: null,
+        isRunning: false,
+      };
       return {
+        ...state,
+        list: serverList,
+        runningServer: state.runningServer - 1,
       };
     }
     case 'SET_SERVER_INDEX': {

@@ -14,16 +14,6 @@ export function deleteProject(projectId) {
   };
 }
 
-export function renameProject(projectId, name) {
-  return {
-    type: 'RENAME_PROJECT',
-    payload: {
-      projectId,
-      name,
-    },
-  };
-}
-
 export function setProjectRootPath(path) {
   return {
     type: 'SET_PROJECT_ROOT_PATH',

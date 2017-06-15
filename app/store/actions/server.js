@@ -14,31 +14,19 @@ export function deleteServer(serverIndex) {
   };
 }
 
-export function renameServer(serverId, name) {
-  return {
-    type: 'RENAME_SERVER',
-    payload: {
-      serverId,
-      name,
-    },
-  };
-}
-
-export function startServer(serverId) {
+export function startServer(pid) {
   return {
     type: 'START_SERVER',
     payload: {
-      serverId,
+      pid,
     },
   };
 }
 
-export function stopServer(serverId) {
+export function stopServer() {
   return {
     type: 'STOP_SERVER',
-    payload: {
-      serverId,
-    },
+    payload: {},
   };
 }
 

@@ -6,7 +6,10 @@ import _ from 'underscore';
 import Theme from './../theme';
 import Console from './../components/Console.jsx';
 import TextInput from './../components/TextInput.jsx';
-import { setCommand } from './../store/actions/server';
+import { setCommand, startServer, stopServer } from './../store/actions/server';
+import { startProcess, stopProcess } from './../store/actions/process';
+
+const spawn = require('child_process').spawn;
 
 const styles = {
   container: {
@@ -44,15 +47,17 @@ const styles = {
 };
 
 @connect(store => ({
-  serverlist: store.server.list,
+  serverList: store.server.list,
   server: store.server.list[store.server.currentServerIndex],
+  processList: store.process.list,
   fileStore: store.server.fileStore,
 }))
 @Radium
 class ServerWindow extends React.Component {
 
   static propTypes = {
-    serverlist: PropTypes.array,
+    serverList: PropTypes.array,
+    processList: PropTypes.array,
     server: PropTypes.object,
     dispatch: PropTypes.func,
     fileStore: PropTypes.object,
@@ -61,6 +66,9 @@ class ServerWindow extends React.Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
+    this.toggleServer = this.toggleServer.bind(this);
+    this.startServer = this.startServer.bind(this);
+    this.stopServer = this.stopServer.bind(this);
   }
 
   componentWillMount() {
@@ -73,16 +81,41 @@ class ServerWindow extends React.Component {
   }
 
   saveChange() {
-    this.props.fileStore.set('list', this.props.serverlist);
+    this.props.fileStore.set('list', this.props.serverList);
+  }
+
+  toggleServer() {
+    if (!this.props.server.isRunning) {
+      this.startServer();
+    } else {
+      this.stopServer();
+    }
+  }
+
+  startServer() {
+    const newProcess = spawn('webpack --watch', [], { shell: true });
+    this.props.dispatch(startProcess(newProcess.pid));
+    this.props.dispatch(startServer(newProcess.pid));
+  }
+
+  stopServer() {
+    const pid = this.props.server.processPID;
+    process.kill(pid);
+    this.props.dispatch(stopProcess(pid));
+    this.props.dispatch(stopServer());
   }
 
   render() {
     if (this.props.server) {
+      let iconStyle = { ...styles.icon };
+      if (this.props.server.isRunning) {
+        iconStyle = { ...iconStyle, color: Theme.colors.EDON_BLUE_LIGHT };
+      }
       const server = this.props.server.command;
 
       return <div style={styles.container}>
         <div style={styles.settings}>
-          <i className="material-icons" style={styles.icon}>power_settings_new</i>
+          <i className="material-icons" style={iconStyle} onClick={this.toggleServer}>power_settings_new</i>
           <div style={styles.input}>
             <TextInput label="Command"
                        placeholder="npm start"
