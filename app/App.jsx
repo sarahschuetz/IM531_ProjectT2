@@ -52,7 +52,7 @@ class App extends React.Component {
 
   onButtonClick(title) {
     if (title === 'Server') {
-      this.setState({ serverActive: true, errorActive: false, settingsActive: false});
+      this.setState({ serverActive: true, errorActive: false, settingsActive: false });
     } else if (title === 'Error Messages') {
       this.setState({ serverActive: false, errorActive: true, settingsActive: false });
     } else if (title === 'Settings') {
@@ -88,7 +88,7 @@ class App extends React.Component {
             <Route exact
                    key={route.link}
                    path={route.link}
-                   component={route.component} />
+                   component={route.component } />
         ))}
         <SystemBarBottom />
       </div>

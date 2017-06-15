@@ -6,7 +6,8 @@ export default function reducer(state = State, action) {
       const processList = [
         ...state.list,
         {
-          pid: action.payload,
+          pid: action.payload.pid,
+          reference: action.payload.process,
           messages: [],
         },
       ];

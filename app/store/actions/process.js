@@ -1,7 +1,10 @@
-export function startProcess(pid) {
+export function startProcess(pid, process) {
   return {
     type: 'START_PROCESS',
-    payload: pid,
+    payload: {
+      pid,
+      process,
+    },
   };
 }
 

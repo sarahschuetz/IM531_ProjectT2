@@ -99,7 +99,7 @@ class ServerWindow extends React.Component {
       this.props.dispatch(addMessage(newProcess.pid, data));
     });
 
-    this.props.dispatch(startProcess(newProcess.pid));
+    this.props.dispatch(startProcess(newProcess.pid, newProcess));
     this.props.dispatch(startServer(newProcess.pid));
   }
 
