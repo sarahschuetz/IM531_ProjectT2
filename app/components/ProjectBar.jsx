@@ -157,9 +157,7 @@ class ProjectBar extends React.Component {
 
         <div style={styles.scroll}>
           {this.props.server.filter(this.checkProjectId).map(server => (
-            <ProjectBarEntry key={server.id}
-              id={server.id}
-              name={server.name} />
+            <ProjectBarEntry key={server.id} server={server} />
           ))}
 
           <div>

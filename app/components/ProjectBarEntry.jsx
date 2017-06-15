@@ -13,6 +13,7 @@ const styles = {
     color: Theme.colors.WHITE,
     fontFamily: Theme.fonts.MAIN_FONT_FAMILY,
     fontSize: '14px',
+    cursor: 'pointer',
     ':hover': {
       backgroundColor: Theme.colors.EDON_BLUE_LIGHT,
     },
@@ -23,59 +24,42 @@ const styles = {
     fontSize: '22px',
     marginTop: '-2px',
   },
-  button: {
+  activeCircle: {
+    height: '7px',
+    width: '7px',
+    borderRadius: '5px',
     float: 'left',
-    display: 'block',
-    border: 0,
-    background: 'transparent',
-    color: Theme.colors.FONT_DEFAULT,
-    outline: 'none',
-    cursor: 'pointer',
+    marginTop: '5px',
+    marginRight: '10px',
   },
 };
 
 @connect(store => ({
   currentServerIndex: store.server.currentServerIndex,
-  server: store.server.list,
+  serverList: store.server.list,
   fileStore: store.server.fileStore,
 }))
 @Radium
 class ProjectBarEntry extends React.Component {
 
   static propTypes = {
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
+    server: PropTypes.object.isRequired,
     currentServerIndex: PropTypes.number,
-    server: PropTypes.array,
+    serverList: PropTypes.array,
     fileStore: PropTypes.object,
     dispatch: PropTypes.func,
   };
 
   constructor(props) {
     super(props);
-    this.state = {
-      isPowerOn: false,
-    };
-    this.onButtonClick = this.onButtonClick.bind(this);
     this.selectCurrentServer = this.selectCurrentServer.bind(this);
-  }
-
-  onButtonClick() {
-    if (!this.state.isPowerOn) {
-      this.setState({
-        isPowerOn: true,
-      });
-    } else {
-      this.setState({
-        isPowerOn: false,
-      });
-    }
+    this.isActive = this.isActive.bind(this);
   }
 
   selectCurrentServer() {
     let index = 0;
-    this.props.server.forEach((server) => {
-      if (server.id === this.props.id) {
+    this.props.serverList.forEach((server) => {
+      if (server.id === this.props.server.id) {
         this.props.dispatch(setCurrentServerIndex(index));
       }
       index += 1;
@@ -84,7 +68,7 @@ class ProjectBarEntry extends React.Component {
 
   getContainerStyle() {
     if (this.props.currentServerIndex >= 0 &&
-        this.props.server[this.props.currentServerIndex].id === this.props.id) {
+        this.props.serverList[this.props.currentServerIndex].id === this.props.server.id) {
       return {
         ...styles.container,
         backgroundColor: Theme.colors.EDON_BLUE_LIGHT,
@@ -93,16 +77,23 @@ class ProjectBarEntry extends React.Component {
     return styles.container;
   }
 
+  isActive() {
+    return this.props.server.isRunning;
+  }
+
   render() {
+    let activeCircleStyle = { ...styles.activeCircle };
+    if (this.isActive()) {
+      activeCircleStyle = { ...activeCircleStyle, backgroundColor: Theme.colors.EDON_BLUE };
+    }
+
     return <div style={this.getContainerStyle()}
-                key={this.props.id}
+                key={this.props.server.id}
                 onClick={this.selectCurrentServer}>
       <div>
-        <button style={styles.button} onClick={this.onButtonClick}><i className="material-icons" style={styles.icon}>
-            {!this.state.isPowerOn ? 'power_settings_new' : 'play_arrow'}
-        </i>
-        </button>
-        {this.props.name}
+          <div style={ activeCircleStyle }></div>
+          <i className="material-icons" style={styles.icon}></i>
+        {this.props.server.name}
       </div>
     </div>;
   }
