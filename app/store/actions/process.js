@@ -11,3 +11,20 @@ export function stopProcess(pid) {
     payload: pid,
   };
 }
+
+export function addMessage(pid, message) {
+  return {
+    type: 'ADD_MESSAGE',
+    payload: {
+      pid,
+      message,
+    },
+  };
+}
+
+export function clearMessages(pid) {
+  return {
+    type: 'ADD_MESSAGE',
+    payload: pid,
+  };
+}

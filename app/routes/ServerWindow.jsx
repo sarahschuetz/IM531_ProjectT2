@@ -7,7 +7,7 @@ import Theme from './../theme';
 import Console from './../components/Console.jsx';
 import TextInput from './../components/TextInput.jsx';
 import { setCommand, startServer, stopServer } from './../store/actions/server';
-import { startProcess, stopProcess } from './../store/actions/process';
+import { startProcess, stopProcess, addMessage } from './../store/actions/process';
 
 const spawn = require('child_process').spawn;
 
@@ -94,6 +94,11 @@ class ServerWindow extends React.Component {
 
   startServer() {
     const newProcess = spawn('webpack --watch', [], { shell: true });
+
+    newProcess.stdout.on('data', (data) => {
+      this.props.dispatch(addMessage(newProcess.pid, data));
+    });
+
     this.props.dispatch(startProcess(newProcess.pid));
     this.props.dispatch(startServer(newProcess.pid));
   }
@@ -111,7 +116,6 @@ class ServerWindow extends React.Component {
       if (this.props.server.isRunning) {
         iconStyle = { ...iconStyle, color: Theme.colors.EDON_BLUE_LIGHT };
       }
-      const server = this.props.server.command;
 
       return <div style={styles.container}>
         <div style={styles.settings}>
@@ -119,11 +123,11 @@ class ServerWindow extends React.Component {
           <div style={styles.input}>
             <TextInput label="Command"
                        placeholder="npm start"
-                       value={server}
+                       value={this.props.server.command}
                        handleChange={this.handleChange} />
           </div>
         </div>
-        <Console />
+        <Console server={this.props.server} />
       </div>;
     }
     return <div style={styles.container}></div>;

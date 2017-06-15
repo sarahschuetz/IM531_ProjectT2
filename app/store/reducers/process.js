@@ -6,7 +6,7 @@ export default function reducer(state = State, action) {
       const processList = [
         ...state.list,
         {
-          ...action.payload,
+          pid: action.payload,
           messages: [],
         },
       ];
@@ -19,6 +19,57 @@ export default function reducer(state = State, action) {
       return {
         ...state,
         list: state.list.filter(process => process.pid !== action.payload),
+      };
+    }
+    case 'ADD_MESSAGE': {
+      let processList = [
+        ...state.list,
+      ];
+
+      let currentProcess = processList.filter(process => process.pid === action.payload.pid)[0];
+      processList = processList.filter(process => process.pid !== action.payload.pid);
+
+      const messages = [
+        ...currentProcess.messages,
+        action.payload.message,
+      ];
+
+      currentProcess = {
+        ...currentProcess,
+        messages,
+      };
+
+      processList = [
+        ...processList,
+        currentProcess,
+      ];
+
+      return {
+        ...state,
+        list: processList,
+      };
+    }
+    case 'CLEAR_MESSAGES': {
+      let processList = [
+        ...state.list,
+      ];
+
+      let currentProcess = processList.filter(process => process.pid === action.payload.pid)[0];
+      processList = processList.filter(process => process.pid !== action.payload.pid);
+
+      currentProcess = {
+        ...currentProcess,
+        messages: [],
+      };
+
+      processList = [
+        ...processList,
+        currentProcess,
+      ];
+
+      return {
+        ...state,
+        list: processList,
       };
     }
     default: {
