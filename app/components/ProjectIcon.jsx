@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Radium from 'radium';
 import Theme from './../theme';
 
 const size = '20px';
@@ -12,12 +13,16 @@ const styles = {
     marginRight: '10px',
     color: Theme.colors.FONT_DEFAULT,
     float: 'right',
+    ':hover': {
+      cursor: 'pointer',
+    },
   },
   icon: {
     fontSize: size,
   },
 };
 
+@Radium
 class ProjectIcon extends React.Component {
 
   static propTypes = {
