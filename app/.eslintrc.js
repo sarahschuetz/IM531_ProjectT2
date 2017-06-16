@@ -28,5 +28,6 @@ module.exports = {
         'linebreak-style': 0,
         'class-methods-use-this': 0,
         'experimental-decorators': 0,
+        'react/no-find-dom-node': 0,
     }
 };

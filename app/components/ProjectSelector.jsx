@@ -1,5 +1,8 @@
+
+
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import ReactDOM from 'react-dom';
 import Radium from 'radium';
 import React from 'react';
 import Theme from './../theme';
@@ -122,6 +125,7 @@ class ProjectSelector extends React.Component {
     this.deleteProject = this.deleteProject.bind(this);
   }
 
+
   componentDidUpdate(prevProps) {
     if (this.props.projects !== prevProps.projects) {
       this.props.fileStore.set({
@@ -140,6 +144,26 @@ class ProjectSelector extends React.Component {
       this.props.fileStore.set({ currentProjectIndex: this.props.currentProjectIndex });
     }
   }
+
+  componentWillMount() {
+    document.addEventListener('click', this.handleClick, false);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleClick, false);
+  }
+
+
+  handleClick = (e) => {
+    if (!ReactDOM.findDOMNode(this).contains(e.target)) {
+      if (e.target !== ProjectSelector) {
+        this.setState({
+          fadeIn: false,
+        });
+      }
+    }
+  }
+
 
   toggleProjectMenu() {
     if (!this.state.fadeIn) {
@@ -189,9 +213,13 @@ class ProjectSelector extends React.Component {
     }
   }
 
+
   handleChange(event) {
     this.setState({ nameInput: event.target.value });
   }
+  handleClose = () => {
+    this.setState({ fadeIn: false });
+  };
 
   deleteProject() {
     this.props.dispatch(deleteProject(this.props.currentProjectIndex));
@@ -245,7 +273,7 @@ class ProjectSelector extends React.Component {
             open Project
           </div>
         </div>
-        </div>
+      </div>
       : ''}
     </div>;
   }
