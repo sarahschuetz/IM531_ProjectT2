@@ -7,6 +7,19 @@ const menuTemplate = require('./menu.js');
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
 
+// ensure only a single instance of the program exists
+const shouldQuit = app.makeSingleInstance(() => {
+  // Someone tried to run a second instance, we should focus our window.
+  if (win) {
+    if (win.isMinimized()) win.restore();
+    win.focus();
+  }
+});
+
+if (shouldQuit) {
+  app.quit();
+}
+
 function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
@@ -28,7 +41,10 @@ function createWindow() {
   win.webContents.openDevTools();
 
   // Emitted when the window is closed.
-  win.on('closed', () => {
+  win.on('closed', (event) => {
+    console.log('careful, app is quitting!!');
+    event.preventDefault();
+
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
