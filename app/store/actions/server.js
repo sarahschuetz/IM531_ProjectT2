@@ -23,10 +23,17 @@ export function startServer(pid) {
   };
 }
 
-export function stopServer() {
+export function stopCurrentServer() {
+  return {
+    type: 'STOP_CURRENT_SERVER',
+    payload: {},
+  };
+}
+
+export function stopServer(index) {
   return {
     type: 'STOP_SERVER',
-    payload: {},
+    payload: index,
   };
 }
 

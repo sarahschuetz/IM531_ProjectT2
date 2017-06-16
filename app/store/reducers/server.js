@@ -39,12 +39,27 @@ export default function reducer(state = State, action) {
         runningServer: state.runningServer + 1,
       };
     }
-    case 'STOP_SERVER': {
+    case 'STOP_CURRENT_SERVER': {
       const serverList = [
         ...state.list,
       ];
       serverList[state.currentServerIndex] = {
         ...serverList[state.currentServerIndex],
+        processPID: null,
+        isRunning: false,
+      };
+      return {
+        ...state,
+        list: serverList,
+        runningServer: state.runningServer - 1,
+      };
+    }
+    case 'STOP_SERVER': {
+      const serverList = [
+        ...state.list,
+      ];
+      serverList[action.payload] = {
+        ...serverList[action.payload],
         processPID: null,
         isRunning: false,
       };

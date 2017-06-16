@@ -1,4 +1,4 @@
-const { app, BrowserWindow, globalShortcut, Menu } = require('electron');
+const { app, BrowserWindow, globalShortcut, Menu, ipcMain } = require('electron');
 const path = require('path');
 const url = require('url');
 const menuTemplate = require('./menu.js');
@@ -30,6 +30,8 @@ function createWindow() {
     minHeight: 600,
   });
 
+  win.readyToClose = false;
+
   // and load the index.html of the app.
   win.loadURL(url.format({
     pathname: path.join(__dirname, '..', 'public', 'index.html'),
@@ -41,16 +43,23 @@ function createWindow() {
   win.webContents.openDevTools();
 
   // Emitted when the window is closed.
-  win.on('closed', (event) => {
-    console.log('careful, app is quitting!!');
-    event.preventDefault();
-
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    win = null;
+  win.on('close', (e) => {
+    if (win.readyToClose) {
+      // Dereference the window object, usually you would store windows
+      // in an array if your app supports multi windows, this is the time
+      // when you should delete the corresponding element.
+      win = null;
+    } else {
+      e.preventDefault();
+      win.webContents.send('stop-servers');
+    }
   });
 }
+
+ipcMain.on('close-window', () => {
+  win.readyToClose = true;
+  win.close();
+});
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

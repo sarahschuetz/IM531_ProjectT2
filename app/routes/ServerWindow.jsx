@@ -6,7 +6,7 @@ import _ from 'underscore';
 import Theme from './../theme';
 import Console from './../components/Console.jsx';
 import TextInput from './../components/TextInput.jsx';
-import { setCommand, startServer, stopServer } from './../store/actions/server';
+import { setCommand, startServer, stopCurrentServer } from './../store/actions/server';
 import { startProcess, stopProcess, addMessage } from './../store/actions/process';
 
 const spawn = require('child_process').spawn;
@@ -107,7 +107,7 @@ class ServerWindow extends React.Component {
     const pid = this.props.server.processPID;
     process.kill(pid);
     this.props.dispatch(stopProcess(pid));
-    this.props.dispatch(stopServer());
+    this.props.dispatch(stopCurrentServer());
   }
 
   render() {

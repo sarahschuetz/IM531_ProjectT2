@@ -1,5 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { HashRouter as Router, Link, Route } from 'react-router-dom';
+import { ipcRenderer } from 'electron';
 import ErrorWindow from './routes/ErrorWindow.jsx';
 import MenuBar from './components/MenuBar.jsx';
 import MenuItem from './components/MenuItem.jsx';
@@ -8,6 +11,8 @@ import ServerWindow from './routes/ServerWindow.jsx';
 import SettingsWindow from './routes/SettingsWindow.jsx';
 import SystemBarBottom from './components/SystemBarBottom.jsx';
 import SystemBarTop from './components/SystemBarTop.jsx';
+import { stopServer } from './store/actions/server';
+import { stopProcess } from './store/actions/process';
 
 const styles = {
   menuLink: {
@@ -37,8 +42,16 @@ const routes = [
   },
 ];
 
+@connect(store => ({
+  serverList: store.server.list,
+}))
 class App extends React.Component {
 
+  static propTypes = {
+    serverList: PropTypes.array,
+    dispatch: PropTypes.func,
+    fileStore: PropTypes.object,
+  };
 
   constructor(props) {
     super(props);
@@ -47,7 +60,26 @@ class App extends React.Component {
       serverActive: true,
       errorActive: false,
     };
-    // this.onButtonClick = this.onButtonClick.bind(this);
+    this.stopAllServer = this.stopAllServer.bind(this);
+  }
+
+  componentWillMount() {
+    ipcRenderer.on('stop-servers', this.stopAllServer);
+  }
+
+  stopAllServer() {
+    console.log('stop all server');
+    let index = 0;
+    this.props.serverList.forEach((server) => {
+      if (server.isRunning) {
+        const pid = server.processPID;
+        process.kill(pid);
+        this.props.dispatch(stopProcess(pid));
+        this.props.dispatch(stopServer(index));
+      }
+      index += 1;
+    });
+    ipcRenderer.send('close-window');
   }
 
   onButtonClick(title) {

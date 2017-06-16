@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Theme from './../theme';
 import ProjectIcon from './ProjectIcon.jsx';
-import { deleteServer, startServer, stopServer } from './../store/actions/server';
+import { deleteServer, startServer, stopCurrentServer } from './../store/actions/server';
 import { startProcess, stopProcess, addMessage } from './../store/actions/process';
 
 const spawn = require('child_process').spawn;
@@ -92,7 +92,7 @@ class ProjectIconBar extends React.Component {
     const pid = this.props.server.processPID;
     process.kill(pid);
     this.props.dispatch(stopProcess(pid));
-    this.props.dispatch(stopServer());
+    this.props.dispatch(stopCurrentServer());
   }
 
   render() {
