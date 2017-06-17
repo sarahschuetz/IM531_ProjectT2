@@ -6,7 +6,6 @@ import { ipcRenderer } from 'electron';
 import MenuBar from './components/MenuBar.jsx';
 import MenuItem from './components/MenuItem.jsx';
 import ServerOverview from './routes/ServerOverview.jsx';
-import TerminatedServer from './routes/TerminatedServer.jsx';
 import StaticWebserver from './routes/StaticWebserver.jsx';
 import SystemBarBottom from './components/SystemBarBottom.jsx';
 
@@ -26,12 +25,6 @@ const routes = [
     title: 'Server Overview',
     component: ServerOverview,
     icon: 'code',
-  },
-  {
-    link: '/terminated',
-    title: 'Terminated Server',
-    component: TerminatedServer,
-    icon: 'error',
   },
   {
     link: '/static',
@@ -87,12 +80,6 @@ class App extends React.Component {
         terminatedServerActive: false,
         staticWebserverActive: false,
       });
-    } else if (title === 'Terminated Server') {
-      this.setState({
-        serverOverviewActive: false,
-        terminatedServerActive: true,
-        staticWebserverActive: false,
-      });
     } else if (title === 'Static Webserver') {
       this.setState({
         serverOverviewActive: false,
@@ -103,10 +90,8 @@ class App extends React.Component {
   }
 
   getTitle(title) {
-    if (title === 'Server Overvies') {
+    if (title === 'Server Overview') {
       return this.state.serverOverviewActive;
-    } else if (title === 'Terminated Server') {
-      return this.state.terminatedServerActive;
     } else if (title === 'Static Webserver') {
       return this.state.staticWebserverActive;
     }

@@ -6,10 +6,8 @@ import _ from 'underscore';
 import Theme from './../theme';
 import Console from './Console.jsx';
 import TextInput from './TextInput.jsx';
-import { setCommand, startServer, stopCurrentServer } from './../store/actions/server';
-import { startProcess, stopProcess, addMessage, processTerminated } from './../store/actions/process';
-
-const spawn = require('child_process').spawn;
+import ServerStartIcon from './ServerStartIcon.jsx';
+import { setCommand } from './../store/actions/server';
 
 const styles = {
   container: {
@@ -50,7 +48,6 @@ const styles = {
   project: store.project.list[store.project.currentProjectIndex],
   serverList: store.server.list,
   server: store.server.list[store.server.currentServerIndex],
-  processList: store.process.list,
   fileStore: store.server.fileStore,
 }))
 @Radium
@@ -59,7 +56,6 @@ class ServerWindow extends React.Component {
   static propTypes = {
     project: PropTypes.object,
     serverList: PropTypes.array,
-    processList: PropTypes.array,
     server: PropTypes.object,
     dispatch: PropTypes.func,
     fileStore: PropTypes.object,
@@ -73,9 +69,7 @@ class ServerWindow extends React.Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
-    this.toggleServer = this.toggleServer.bind(this);
-    this.startServer = this.startServer.bind(this);
-    this.stopServer = this.stopServer.bind(this);
+    this.checkPrerequisites = this.checkPrerequisites.bind(this);
   }
 
   componentWillMount() {
@@ -97,66 +91,23 @@ class ServerWindow extends React.Component {
     this.props.fileStore.set('list', this.props.serverList);
   }
 
-  toggleServer() {
-    if (!this.props.server.isRunning) {
-      if (this.props.project.rootPath === '') {
-        this.setState({ errorMessage: 'No project root directory selected.' });
-      } else if (this.props.server.command === '') {
-        this.setState({ errorMessage: 'No command specified.' });
-      } else {
-        this.startServer();
-      }
-    } else {
-      this.stopServer();
+  checkPrerequisites() {
+    if (this.props.project.rootPath === '') {
+      this.setState({ errorMessage: 'No project root directory selected.' });
+      return false;
+    } else if (this.props.server.command === '') {
+      this.setState({ errorMessage: 'No command specified.' });
+      return false;
     }
-  }
-
-  startServer() {
-    const newProcess = spawn(this.props.server.command, [], {
-      shell: true,
-      cwd: this.props.project.rootPath,
-    });
-
-    newProcess.stdout.on('data', (data) => {
-      this.props.dispatch(addMessage(newProcess.pid, data));
-    });
-
-    newProcess.stderr.on('data', (data) => {
-      this.props.dispatch(addMessage(newProcess.pid, data));
-    });
-
-    newProcess.on('close', () => {
-      if (this.props.server.isRunning) {
-        this.props.dispatch(addMessage(newProcess.pid, '---------- PROCESS TERMINATED ----------'));
-        this.props.dispatch(processTerminated(newProcess.pid));
-      }
-    });
-
-    this.props.dispatch(startProcess(newProcess.pid, newProcess));
-    this.props.dispatch(startServer(newProcess.pid));
-  }
-
-  stopServer() {
-    const pid = this.props.server.processPID;
-    const currentProcess = this.props.processList.filter(process => process.pid === pid)[0];
-    if (!currentProcess.terminated) {
-      process.kill(pid);
-    }
-    this.props.dispatch(stopProcess(pid));
-    this.props.dispatch(stopCurrentServer());
+    return true;
   }
 
   render() {
     if (this.props.server) {
-      let iconStyle = { ...styles.icon };
-      if (this.props.server.isRunning) {
-        iconStyle = { ...iconStyle, color: Theme.colors.EDON_BLUE_LIGHT };
-      }
-
       return <div style={styles.container}>
         <div style={styles.settings}>
           <div>{this.state.errorMessage}</div>
-          <i className="material-icons" style={iconStyle} onClick={this.toggleServer}>power_settings_new</i>
+          <ServerStartIcon checkPrerequisites={this.checkPrerequisites}/>
           <div style={styles.input}>
             <TextInput label="Command"
                        placeholder="npm start"

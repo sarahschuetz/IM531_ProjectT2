@@ -66,7 +66,6 @@ ipcMain.on('close-window', () => {
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
   createWindow();
-  globalShortcut.register('VolumeUp', () => win.webContents.send('VolumeUp'));
 
   const menu = Menu.buildFromTemplate(menuTemplate);
   Menu.setApplicationMenu(menu);

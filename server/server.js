@@ -5,12 +5,12 @@ const errorHandler = require('errorhandler');
 const methodOverride = require('method-override');
 
 const app = express();
-const publicDir = process.argv[2] || path.join(__dirname, '/public');
-const hostname = process.env.HOSTNAME || 'localhost';
-const port = parseInt(process.env.PORT, 10) || 4567;
+const publicDir = process.argv[2];
+const hostname = 'localhost';
+const port = 9000;
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(publicDir, '/index.html'));
+  res.sendFile(path.join(publicDir, 'index.html'));
 });
 
 app.use(methodOverride());

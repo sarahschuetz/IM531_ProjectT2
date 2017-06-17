@@ -3,7 +3,15 @@ import FileStore from 'electron-store';
 const fileStore = new FileStore({
   name: 'server-store',
   defaults: {
-    list: [],
+    list: [{
+      name: 'StaticServer',
+      projectId: 0,
+      isRunning: false,
+      processPID: null,
+      id: 0,
+      command: 'node server/server.js',
+      showDirectory: '',
+    }],
     serverIdCounter: 1,
   },
 });

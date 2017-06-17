@@ -39,7 +39,7 @@ const styles = {
   autoScrollHelper: {
     float: 'left',
     clear: 'both',
-  }
+  },
 };
 
 @connect(store => ({
@@ -61,11 +61,6 @@ class Console extends React.Component {
     };
   }
 
-  scrollToBottom() {
-    const node = ReactDOM.findDOMNode(this.messagesEnd);
-    node.scrollIntoView({ behavior: 'smooth' });
-  }
-
   componentDidUpdate(prevProps) {
     this.scrollToBottom();
     if (this.props.processList !== prevProps.processList) {
@@ -85,6 +80,10 @@ class Console extends React.Component {
     this.scrollToBottom();
   }
 
+  scrollToBottom() {
+    const node = ReactDOM.findDOMNode(this.messagesEnd);
+    node.scrollIntoView({ behavior: 'smooth' });
+  }
 
   clearConsole = (pid) => {
     if (this.props.server.isRunning) {

@@ -46,6 +46,13 @@ export function setCommand(command) {
   };
 }
 
+export function setShowDirectory(dir) {
+  return {
+    type: 'SET_SHOW_DIRECTORY',
+    payload: dir,
+  };
+}
+
 export function setCurrentServerIndex(serverIndex) {
   return {
     type: 'SET_SERVER_INDEX',

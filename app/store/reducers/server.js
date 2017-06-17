@@ -88,6 +88,19 @@ export default function reducer(state = State, action) {
         list: serverList,
       };
     }
+    case 'SET_SHOW_DIRECTORY': {
+      const serverList = [
+        ...state.list,
+      ];
+      serverList[state.currentServerIndex] = {
+        ...serverList[state.currentServerIndex],
+        showDirectory: action.payload,
+      };
+      return {
+        ...state,
+        list: serverList,
+      };
+    }
     default: {
       return state;
     }

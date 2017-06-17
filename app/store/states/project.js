@@ -6,7 +6,7 @@ const fileStore = new FileStore({
     currentProjectIndex: -1,
     list: [{
       name: 'StaticServer',
-      rootPath: '',
+      rootPath: '.',
       id: 0,
     }],
     projectIdCounter: 1,
