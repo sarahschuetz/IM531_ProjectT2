@@ -17,7 +17,7 @@ const styles = {
   },
 };
 
-class SettingsWindow extends React.Component {
+class StaticWebserver extends React.Component {
 
   render() {
     return <div style={styles.container}>
@@ -26,4 +26,4 @@ class SettingsWindow extends React.Component {
   }
 }
 
-export default SettingsWindow;
+export default StaticWebserver;

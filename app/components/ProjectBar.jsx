@@ -10,7 +10,7 @@ import { addServer, setCurrentServerIndex } from './../store/actions/server';
 const styles = {
   container: {
     width: `${Theme.sizes.PROJECT_BAR_WIDTH}px`,
-    height: `calc(100% - ${Theme.sizes.SYSTEM_BAR_BOTTOM_HEIGHT}px)`,
+    height: '100%',
     backgroundColor: Theme.colors.EDON_BLUE_ULTRA_LIGHT,
     float: 'left',
     color: Theme.colors.WHITE,

@@ -3,14 +3,13 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { HashRouter as Router, Link, Route } from 'react-router-dom';
 import { ipcRenderer } from 'electron';
-import ErrorWindow from './routes/ErrorWindow.jsx';
 import MenuBar from './components/MenuBar.jsx';
 import MenuItem from './components/MenuItem.jsx';
-import ProjectBar from './components/ProjectBar.jsx';
-import ServerWindow from './routes/ServerWindow.jsx';
-import SettingsWindow from './routes/SettingsWindow.jsx';
+import ServerOverview from './routes/ServerOverview.jsx';
+import TerminatedServer from './routes/TerminatedServer.jsx';
+import StaticWebserver from './routes/StaticWebserver.jsx';
 import SystemBarBottom from './components/SystemBarBottom.jsx';
-import SystemBarTop from './components/SystemBarTop.jsx';
+
 import { stopServer } from './store/actions/server';
 import { stopProcess } from './store/actions/process';
 
@@ -25,19 +24,19 @@ const routes = [
     link: '/',
     exact: true,
     title: 'Server',
-    component: ServerWindow,
+    component: ServerOverview,
     icon: 'code',
   },
   {
-    link: '/errors',
-    title: 'Error Messages',
-    component: ErrorWindow,
+    link: '/terminated',
+    title: 'Terminated Server',
+    component: TerminatedServer,
     icon: 'error',
   },
   {
-    link: '/settings',
-    title: 'Settings',
-    component: SettingsWindow,
+    link: '/static',
+    title: 'Static Webserver',
+    component: StaticWebserver,
     icon: 'settings',
   },
 ];
@@ -68,7 +67,6 @@ class App extends React.Component {
   }
 
   stopAllServer() {
-    console.log('stop all server');
     let index = 0;
     this.props.serverList.forEach((server) => {
       if (server.isRunning) {
@@ -114,8 +112,6 @@ class App extends React.Component {
             </Link>
           ))}
         </MenuBar>
-        <ProjectBar />
-        <SystemBarTop />
         {routes.map(route => (
             <Route exact
                    key={route.link}

@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import Radium from 'radium';
 import _ from 'underscore';
 import Theme from './../theme';
-import Console from './../components/Console.jsx';
-import TextInput from './../components/TextInput.jsx';
+import Console from './Console.jsx';
+import TextInput from './TextInput.jsx';
 import { setCommand, startServer, stopCurrentServer } from './../store/actions/server';
 import { startProcess, stopProcess, addMessage, processTerminated } from './../store/actions/process';
 
@@ -14,8 +14,8 @@ const spawn = require('child_process').spawn;
 const styles = {
   container: {
     backgroundColor: Theme.colors.BACKGROUND,
-    width: `calc(100% - ${Theme.sizes.PROJECT_BAR_WIDTH + Theme.sizes.MENU_BAR_WIDTH}px)`,
-    height: `calc(100% - ${Theme.sizes.SYSTEM_BAR_BOTTOM_HEIGHT + Theme.sizes.HEADER_HEIGHT + Theme.sizes.PROJECT_ICON_BAR_HEIGHT}px)`,
+    width: `calc(100% - ${Theme.sizes.PROJECT_BAR_WIDTH}px)`,
+    height: `calc(100% - ${Theme.sizes.HEADER_HEIGHT + Theme.sizes.PROJECT_ICON_BAR_HEIGHT}px)`,
     padding: '16px',
     fontFamily: '"Montserrat", sans-serif',
     color: Theme.colors.FONT_DEFAULT,

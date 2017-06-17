@@ -17,7 +17,7 @@ const styles = {
   },
 };
 
-class ErrorWindow extends React.Component {
+class TerminatedServer extends React.Component {
 
   render() {
     return <div style={styles.container}>
@@ -26,4 +26,4 @@ class ErrorWindow extends React.Component {
   }
 }
 
-export default ErrorWindow;
+export default TerminatedServer;
