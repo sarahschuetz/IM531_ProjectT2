@@ -59,6 +59,9 @@ class SystemBarTop extends React.Component {
   openFolder() {
     dialog.showOpenDialog({ properties: ['openDirectory', 'createDirectory', 'promptToCreate'] },
     (filePaths) => {
+      if (filePaths === undefined) {
+        return;
+      }
       this.props.dispatch(setProjectRootPath(filePaths[0]));
       this.saveChange();
     });

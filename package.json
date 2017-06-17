@@ -47,7 +47,7 @@
     "babel-preset-stage-1": "^6.24.1",
     "cross-env": "^5.0.0",
     "css-loader": "^0.28.1",
-    "electron-builder": "^18.6.2",
+    "electron-builder": "^19.2.5",
     "enzyme": "^2.8.2",
     "eslint": "^3.19.0",
     "eslint-config-airbnb-base": "^11.1.3",

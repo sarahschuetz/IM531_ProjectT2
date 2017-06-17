@@ -1,5 +1,3 @@
-
-
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
@@ -125,10 +123,13 @@ class ProjectSelector extends React.Component {
 
     this.addProject = this.addProject.bind(this);
     this.saveNewProject = this.saveNewProject.bind(this);
+    this.saveFolderProject = this.saveFolderProject.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.saveChange = this.saveChange.bind(this);
+    this.saveFolderChange = this.saveFolderChange.bind(this);
     this.toggleProjectMenu = this.toggleProjectMenu.bind(this);
     this.deleteProject = this.deleteProject.bind(this);
+    this.openFolder = this.openFolder.bind(this);
   }
 
 
@@ -195,16 +196,44 @@ class ProjectSelector extends React.Component {
     });
   }
 
+  saveFolderProject() {
+    if (this.state.nameInput !== '') {
+      this.props.dispatch(addProject({
+        name: this.state.nameInput,
+        rootPath: this.state.rootPath,
+      }));
+      this.toggleProjectMenu();
+    }
+
+    this.setState({
+      nameInput: '',
+      newFolderProject: false,
+    });
+  }
+
   openFolder() {
     dialog.showOpenDialog({ properties: ['openDirectory', 'createDirectory', 'promptToCreate'] },
             (filePaths) => {
-              console.log(`DUMMY OUTPUT${filePaths}`);
+              if (filePaths === undefined) {
+                return;
+              }
+              this.setState({
+                nameInput: '',
+                rootPath: filePaths[0],
+                newFolderProject: true,
+              });
             });
   }
 
   saveChange(event) {
     if (event.keyCode === 13) {
       this.saveNewProject();
+    }
+  }
+
+  saveFolderChange(event) {
+    if (event.keyCode === 13) {
+      this.saveFolderProject();
     }
   }
 
@@ -221,9 +250,6 @@ class ProjectSelector extends React.Component {
     this.setState({ nameInput: event.target.value });
   }
 
-  handleClose = () => {
-    this.setState({ fadeIn: false });
-  };
 
   findServerIndex(server) {
     let index = 0;
@@ -257,8 +283,8 @@ class ProjectSelector extends React.Component {
     this.props.dispatch(setCurrentServerIndex(-1));
 
     const serverOfProject = this.props.serverList.filter(
-      server => server.projectId === this.props.project.id,
-    );
+            server => server.projectId === this.props.project.id,
+        );
 
     serverOfProject.forEach((server) => { this.deleteServer(server); });
 
@@ -271,13 +297,24 @@ class ProjectSelector extends React.Component {
     let inputField;
     if (this.state.newProject) {
       inputField = <input type="text"
-                          style={styles.input}
-                          maxLength="15"
-                          placeholder="Project Name"
-                          onBlur={this.saveNewProject}
-                          onChange={this.handleChange}
-                          onKeyDown={this.saveChange}
-                          autoFocus />;
+                                style={styles.input}
+                                maxLength="15"
+                                placeholder="Project Name"
+                                onBlur={this.saveNewProject}
+                                onChange={this.handleChange}
+                                onKeyDown={this.saveChange}
+                                autoFocus />;
+    }
+
+    if (this.state.newFolderProject) {
+      inputField = <input type="text"
+                              style={styles.input}
+                              maxLength="15"
+                              placeholder="Project Name"
+                              onBlur={this.saveFolderProject}
+                              onChange={this.handleChange}
+                              onKeyDown={this.saveFolderChange}
+                              autoFocus />;
     }
 
     return <div style={styles.container}>
@@ -313,8 +350,7 @@ class ProjectSelector extends React.Component {
             open Project
           </div>
         </div>
-      </div>
-      : ''}
+      </div> : ''}
     </div>;
   }
 }

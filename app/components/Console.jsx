@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Theme from './../theme';
@@ -35,6 +36,10 @@ const styles = {
     position: 'relative',
     top: '1px',
   },
+  autoScrollHelper: {
+    float: 'left',
+    clear: 'both',
+  }
 };
 
 @connect(store => ({
@@ -56,7 +61,13 @@ class Console extends React.Component {
     };
   }
 
+  scrollToBottom() {
+    const node = ReactDOM.findDOMNode(this.messagesEnd);
+    node.scrollIntoView({ behavior: 'smooth' });
+  }
+
   componentDidUpdate(prevProps) {
+    this.scrollToBottom();
     if (this.props.processList !== prevProps.processList) {
       if (this.props.server.isRunning) {
         const currentProcess = this.props.processList.filter(
@@ -69,6 +80,11 @@ class Console extends React.Component {
       }
     }
   }
+
+  componentDidMount() {
+    this.scrollToBottom();
+  }
+
 
   clearConsole = (pid) => {
     if (this.props.server.isRunning) {
@@ -87,6 +103,8 @@ class Console extends React.Component {
                             key={index}
                             color={Theme.colors.console.INFO_COLOR} />
         )) : ''}
+      <div style={styles.autoScrollHelper}
+           ref={(el) => { this.messagesEnd = el; }} />
     </div>;
   }
 }
