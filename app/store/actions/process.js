@@ -27,7 +27,14 @@ export function addMessage(pid, message) {
 
 export function clearMessages(pid) {
   return {
-    type: 'ADD_MESSAGE',
+    type: 'CLEAR_MESSAGES',
+    payload: pid,
+  };
+}
+
+export function processTerminated(pid) {
+  return {
+    type: 'PROCESS_TERMINATED',
     payload: pid,
   };
 }

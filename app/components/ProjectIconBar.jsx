@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Theme from './../theme';
 import ProjectIcon from './ProjectIcon.jsx';
 import { deleteServer, startServer, stopCurrentServer } from './../store/actions/server';
-import { startProcess, stopProcess, addMessage } from './../store/actions/process';
+import { startProcess, stopProcess, addMessage, processTerminated } from './../store/actions/process';
 
 const spawn = require('child_process').spawn;
 
@@ -37,6 +37,7 @@ const styles = {
   currentServerIndex: store.server.currentServerIndex,
   server: store.server.list[store.server.currentServerIndex],
   project: store.project.list[store.project.currentProjectIndex],
+  processList: store.process.list,
 }))
 class ProjectIconBar extends React.Component {
 
@@ -45,6 +46,7 @@ class ProjectIconBar extends React.Component {
     server: PropTypes.object,
     project: PropTypes.object,
     dispatch: PropTypes.func,
+    processList: PropTypes.array,
   };
 
   constructor(props) {
@@ -80,10 +82,22 @@ class ProjectIconBar extends React.Component {
   }
 
   startServer() {
-    const newProcess = spawn('webpack --watch', [], { shell: true });
+    const newProcess = spawn(this.props.server.command, [], {
+      shell: true,
+      cwd: this.props.project.rootPath,
+    });
 
     newProcess.stdout.on('data', (data) => {
       this.props.dispatch(addMessage(newProcess.pid, data));
+    });
+
+    newProcess.stderr.on('data', (data) => {
+      this.props.dispatch(addMessage(newProcess.pid, data));
+    });
+
+    newProcess.on('close', () => {
+      this.props.dispatch(addMessage(newProcess.pid, '---------- PROCESS TERMINATED ----------'));
+      this.props.dispatch(processTerminated(newProcess.pid));
     });
 
     this.props.dispatch(startProcess(newProcess.pid, newProcess));
@@ -92,7 +106,10 @@ class ProjectIconBar extends React.Component {
 
   stopServer() {
     const pid = this.props.server.processPID;
-    process.kill(pid);
+    const currentProcess = this.props.processList.filter(process => process.pid === pid)[0];
+    if (!currentProcess.terminated) {
+      process.kill(pid);
+    }
     this.props.dispatch(stopProcess(pid));
     this.props.dispatch(stopCurrentServer());
   }

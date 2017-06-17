@@ -7,7 +7,7 @@ import Theme from './../theme';
 import Console from './../components/Console.jsx';
 import TextInput from './../components/TextInput.jsx';
 import { setCommand, startServer, stopCurrentServer } from './../store/actions/server';
-import { startProcess, stopProcess, addMessage } from './../store/actions/process';
+import { startProcess, stopProcess, addMessage, processTerminated } from './../store/actions/process';
 
 const spawn = require('child_process').spawn;
 
@@ -126,7 +126,8 @@ class ServerWindow extends React.Component {
     });
 
     newProcess.on('close', () => {
-      console.log('Server stopped because process terminated');
+      this.props.dispatch(addMessage(newProcess.pid, '---------- PROCESS TERMINATED ----------'));
+      this.props.dispatch(processTerminated(newProcess.pid));
     });
 
     this.props.dispatch(startProcess(newProcess.pid, newProcess));
@@ -135,7 +136,10 @@ class ServerWindow extends React.Component {
 
   stopServer() {
     const pid = this.props.server.processPID;
-    process.kill(pid);
+    const currentProcess = this.props.processList.filter(process => process.pid === pid)[0];
+    if (!currentProcess.terminated) {
+      process.kill(pid);
+    }
     this.props.dispatch(stopProcess(pid));
     this.props.dispatch(stopCurrentServer());
   }

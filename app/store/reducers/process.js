@@ -55,12 +55,35 @@ export default function reducer(state = State, action) {
         ...state.list,
       ];
 
-      let currentProcess = processList.filter(process => process.pid === action.payload.pid)[0];
-      processList = processList.filter(process => process.pid !== action.payload.pid);
+      let currentProcess = processList.filter(process => process.pid === action.payload)[0];
+      processList = processList.filter(process => process.pid !== action.payload);
 
       currentProcess = {
         ...currentProcess,
         messages: [],
+      };
+
+      processList = [
+        ...processList,
+        currentProcess,
+      ];
+
+      return {
+        ...state,
+        list: processList,
+      };
+    }
+    case 'PROCESS_TERMINATED': {
+      let processList = [
+        ...state.list,
+      ];
+
+      let currentProcess = processList.filter(process => process.pid === action.payload)[0];
+      processList = processList.filter(process => process.pid !== action.payload);
+
+      currentProcess = {
+        ...currentProcess,
+        terminated: true,
       };
 
       processList = [
