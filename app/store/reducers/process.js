@@ -28,22 +28,25 @@ export default function reducer(state = State, action) {
       ];
 
       let currentProcess = processList.filter(process => process.pid === action.payload.pid)[0];
-      processList = processList.filter(process => process.pid !== action.payload.pid);
 
-      const messages = [
-        ...currentProcess.messages,
-        action.payload.message,
-      ];
+      if (currentProcess) {
+        processList = processList.filter(process => process.pid !== action.payload.pid);
 
-      currentProcess = {
-        ...currentProcess,
-        messages,
-      };
+        const messages = [
+          ...currentProcess.messages,
+          action.payload.message,
+        ];
 
-      processList = [
-        ...processList,
-        currentProcess,
-      ];
+        currentProcess = {
+          ...currentProcess,
+          messages,
+        };
+
+        processList = [
+          ...processList,
+          currentProcess,
+        ];
+      }
 
       return {
         ...state,
