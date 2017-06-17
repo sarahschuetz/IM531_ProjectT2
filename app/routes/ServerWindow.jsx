@@ -126,8 +126,10 @@ class ServerWindow extends React.Component {
     });
 
     newProcess.on('close', () => {
-      this.props.dispatch(addMessage(newProcess.pid, '---------- PROCESS TERMINATED ----------'));
-      this.props.dispatch(processTerminated(newProcess.pid));
+      if (this.props.server.isRunning) {
+        this.props.dispatch(addMessage(newProcess.pid, '---------- PROCESS TERMINATED ----------'));
+        this.props.dispatch(processTerminated(newProcess.pid));
+      }
     });
 
     this.props.dispatch(startProcess(newProcess.pid, newProcess));

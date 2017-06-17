@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Theme from './../theme';
 import ConsoleMessage from './ConsoleMessage.jsx';
+import { clearMessages } from './../store/actions/process';
 
 const styles = {
   container: {
@@ -44,45 +45,35 @@ class Console extends React.Component {
   static propTypes = {
     server: PropTypes.object.isRequired,
     processList: PropTypes.array,
+    dispatch: PropTypes.func,
   };
 
   constructor(props) {
     super(props);
 
     this.state = {
-      messages: [],
       consoleIsEmpty: true,
     };
-
-    /* this.state.command.stderr.on('data', (data) => {
-      this.setState(state => ({
-        messages: state.messages.concat(<ConsoleMessage data={`${data}`}
-                                                  key={this.state.messages.length}
-                                                  color={Theme.colors.console.ERROR_COLOR} />),
-      }));
-    });
-
-    this.state.command.on('close', (code) => {
-      this.setState(state => ({
-        messages: state.messages.concat(<ConsoleMessage data={`${code}`}
-                                                  key={this.state.messages.length}
-                                                  color={Theme.colors.console.ERROR_COLOR} />),
-      }));
-      // console.log(`child process exited with code ${code}`);
-    });*/
   }
 
-  // messages: state.messages.concat(),
-  //       consoleIsEmpty: false,
-
-  componentWillUnmount() {
-    // this.state.command.stdout.removeAllListeners();
+  componentDidUpdate(prevProps) {
+    if (this.props.processList !== prevProps.processList) {
+      if (this.props.server.isRunning) {
+        const currentProcess = this.props.processList.filter(
+          process => process.pid === this.props.server.processPID,
+        )[0];
+        const empty = (currentProcess.messages.length === 0);
+        this.setState({ consoleIsEmpty: empty });
+      } else {
+        this.setState({ consoleIsEmpty: true });
+      }
+    }
   }
 
-  clearConsole = () => {
-    this.setState({
-      consoleIsEmpty: true,
-    });
+  clearConsole = (pid) => {
+    if (this.props.server.isRunning) {
+      this.props.dispatch(clearMessages(pid));
+    }
   }
 
   render() {
@@ -90,7 +81,7 @@ class Console extends React.Component {
       process => process.pid === this.props.server.processPID)[0];
 
     return <div style={styles.container}>
-      {!this.state.consoleIsEmpty && <button onClick={this.clearConsole} style={styles.button}>clear <i className="material-icons" style={styles.icon}>clear</i></button>}
+      {!this.state.consoleIsEmpty && <button onClick={() => this.clearConsole(currentProcess.pid)} style={styles.button}>clear <i className="material-icons" style={styles.icon}>clear</i></button>}
       {currentProcess ? currentProcess.messages.map((message, index) => (
             <ConsoleMessage data={`${message}`}
                             key={index}
