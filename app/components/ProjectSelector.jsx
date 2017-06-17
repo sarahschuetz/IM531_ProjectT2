@@ -214,6 +214,9 @@ class ProjectSelector extends React.Component {
   openFolder() {
     dialog.showOpenDialog({ properties: ['openDirectory', 'createDirectory', 'promptToCreate'] },
             (filePaths) => {
+              if (filePaths === undefined) {
+                return;
+              }
               this.setState({
                 nameInput: '',
                 rootPath: filePaths[0],
