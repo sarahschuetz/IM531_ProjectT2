@@ -23,7 +23,7 @@ const routes = [
   {
     link: '/',
     exact: true,
-    title: 'Server',
+    title: 'Server Overview',
     component: ServerOverview,
     icon: 'code',
   },
@@ -55,9 +55,9 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      settingsActive: false,
-      serverActive: true,
-      errorActive: false,
+      serverOverviewActive: true,
+      terminatedServerActive: false,
+      staticWebserverActive: false,
     };
     this.stopAllServer = this.stopAllServer.bind(this);
   }
@@ -81,24 +81,36 @@ class App extends React.Component {
   }
 
   onButtonClick(title) {
-    if (title === 'Server') {
-      this.setState({ serverActive: true, errorActive: false, settingsActive: false });
-    } else if (title === 'Error Messages') {
-      this.setState({ serverActive: false, errorActive: true, settingsActive: false });
-    } else if (title === 'Settings') {
-      this.setState({ serverActive: false, errorActive: false, settingsActive: true });
+    if (title === 'Server Overview') {
+      this.setState({
+        serverOverviewActive: true,
+        terminatedServerActive: false,
+        staticWebserverActive: false,
+      });
+    } else if (title === 'Terminated Server') {
+      this.setState({
+        serverOverviewActive: false,
+        terminatedServerActive: true,
+        staticWebserverActive: false,
+      });
+    } else if (title === 'Static Webserver') {
+      this.setState({
+        serverOverviewActive: false,
+        terminatedServerActive: false,
+        staticWebserverActive: true,
+      });
     }
   }
 
   getTitle(title) {
-    if (title === 'Server') {
-      return this.state.serverActive;
-    } else if (title === 'Error Messages') {
-      return this.state.errorActive;
-    } else if (title === 'Settings') {
-      return this.state.settingsActive;
+    if (title === 'Server Overvies') {
+      return this.state.serverOverviewActive;
+    } else if (title === 'Terminated Server') {
+      return this.state.terminatedServerActive;
+    } else if (title === 'Static Webserver') {
+      return this.state.staticWebserverActive;
     }
-    return this.state.serverActive;
+    return this.state.serverOverviewActive;
   }
 
   render() {
