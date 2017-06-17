@@ -8,6 +8,8 @@ import React from 'react';
 import Theme from './../theme';
 import ProjectSelectorEntry from './ProjectSelectorEntry.jsx';
 import { addProject, deleteProject, setCurrentProjectIndex } from './../store/actions/project';
+import { deleteServer, stopServer, setCurrentServerIndex } from './../store/actions/server';
+import { stopProcess } from './../store/actions/process';
 
 const { dialog } = require('electron').remote;
 
@@ -94,6 +96,8 @@ const styles = {
   currentProjectIndex: store.project.currentProjectIndex,
   projects: store.project.list,
   project: store.project.list[store.project.currentProjectIndex],
+  serverList: store.server.list,
+  processList: store.process.list,
   fileStore: store.project.fileStore,
   projectIdCounter: store.project.projectIdCounter,
 }))
@@ -106,6 +110,8 @@ class ProjectSelector extends React.Component {
     fileStore: PropTypes.object,
     project: PropTypes.object,
     projects: PropTypes.array,
+    serverList: PropTypes.array,
+    processList: PropTypes.array,
     projectIdCounter: PropTypes.number,
   };
 
@@ -153,7 +159,6 @@ class ProjectSelector extends React.Component {
     document.removeEventListener('click', this.handleClick, false);
   }
 
-
   handleClick = (e) => {
     if (!ReactDOM.findDOMNode(this).contains(e.target)) {
       if (e.target !== ProjectSelector) {
@@ -163,7 +168,6 @@ class ProjectSelector extends React.Component {
       }
     }
   }
-
 
   toggleProjectMenu() {
     if (!this.state.fadeIn) {
@@ -213,15 +217,51 @@ class ProjectSelector extends React.Component {
     }
   }
 
-
   handleChange(event) {
     this.setState({ nameInput: event.target.value });
   }
+
   handleClose = () => {
     this.setState({ fadeIn: false });
   };
 
+  findServerIndex(server) {
+    let index = 0;
+    let result = -1;
+
+    this.props.serverList.forEach((currentServer) => {
+      if (currentServer.id === server.id) {
+        result = index;
+      }
+      index += 1;
+    });
+
+    return result;
+  }
+
+  deleteServer(server) {
+    const serverIndex = this.findServerIndex(server);
+    if (server.isRunning) {
+      const pid = server.processPID;
+      const currentProcess = this.props.processList.filter(process => process.pid === pid)[0];
+      if (!currentProcess.terminated) {
+        process.kill(pid);
+      }
+      this.props.dispatch(stopProcess(pid));
+      this.props.dispatch(stopServer(serverIndex));
+    }
+    this.props.dispatch(deleteServer(serverIndex));
+  }
+
   deleteProject() {
+    this.props.dispatch(setCurrentServerIndex(-1));
+
+    const serverOfProject = this.props.serverList.filter(
+      server => server.projectId === this.props.project.id,
+    );
+
+    serverOfProject.forEach((server) => { this.deleteServer(server); });
+
     this.props.dispatch(deleteProject(this.props.currentProjectIndex));
     this.props.dispatch(setCurrentProjectIndex(-1));
   }
