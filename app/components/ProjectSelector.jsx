@@ -142,8 +142,10 @@ class ProjectSelector extends React.Component {
 
       if (this.props.projects.length < prevProps.projects.length) { // project was deleted
         this.props.dispatch(setCurrentProjectIndex(-1));
+        this.props.dispatch(setCurrentServerIndex(-1));
       } else if (this.props.projects.length > prevProps.projects.length) { // project was added
         this.props.dispatch(setCurrentProjectIndex(this.props.projects.length - 1));
+        this.props.dispatch(setCurrentServerIndex(-1));
       }
     }
 
@@ -204,7 +206,6 @@ class ProjectSelector extends React.Component {
       }));
       this.toggleProjectMenu();
     }
-
     this.setState({
       nameInput: '',
       newFolderProject: false,
@@ -249,7 +250,6 @@ class ProjectSelector extends React.Component {
   handleChange(event) {
     this.setState({ nameInput: event.target.value });
   }
-
 
   findServerIndex(server) {
     let index = 0;
