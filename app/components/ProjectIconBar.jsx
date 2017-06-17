@@ -101,9 +101,11 @@ class ProjectIconBar extends React.Component {
         <div style={styles.icon} onClick={this.toggleServer}>
           <ProjectIcon icon="power_settings_new"/>
         </div>
-        <div style={styles.icon} onClick={this.deleteServer}>
-          <ProjectIcon icon="delete_forever"/>
-        </div>
+        {!this.props.server.isRunning ?
+          <div style={styles.icon} onClick={this.deleteServer}>
+            <ProjectIcon icon="delete_forever"/>
+          </div>
+        : ''}
         {this.props.server.isRunning ?
           <div style={styles.icon} onClick={this.restartServer}>
             <ProjectIcon icon="cached"/>
