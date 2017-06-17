@@ -62,10 +62,10 @@ class SystemBarBottom extends React.Component {
   render() {
     return <div style={styles.container}>
       <div style={styles.appName}>EDON</div>
-      <div style={styles.infoLeft}>
+      {/* <div style={styles.infoLeft}>
         node version
         <span style={styles.bold}> {this.state.version.node}</span>
-      </div>
+      </div> */}
       <div style={styles.infoRight}>
         <span style={styles.bold}>{this.props.runningServer} </span>
         running server
