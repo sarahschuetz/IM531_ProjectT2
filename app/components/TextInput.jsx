@@ -28,7 +28,7 @@ const styles = {
     fontFamily: '"Montserrat", sans-serif',
   },
   input: {
-    width: 'calc(100% - 100px)',
+    width: 'calc(100% - 110px)',
     border: 'none',
     padding: '8px',
     float: 'right',
@@ -37,6 +37,15 @@ const styles = {
     },
   },
   icon: {
+    float: 'right',
+    marginLeft: '10px',
+    marginTop: '2px',
+    color: Theme.colors.WHITE,
+    ':hover': {
+      cursor: 'pointer',
+    },
+  },
+  iconDark: {
     float: 'right',
     marginLeft: '10px',
     marginTop: '2px',
@@ -70,7 +79,7 @@ class TextInput extends React.Component {
     }
 
     if (this.props.icon) {
-      inputStyle.width = 'calc(100% - 100px - 24px - 10px)'; // 100% - label - icon - icon margin
+      inputStyle.width = 'calc(100% - 110px - 24px - 10px)'; // 100% - label - icon - icon margin
     }
 
     return inputStyle;
@@ -80,7 +89,7 @@ class TextInput extends React.Component {
     let icon;
     if (this.props.icon) {
       icon = <i className="material-icons"
-                style={styles.icon}
+                style={this.props.backgroundLight ? styles.iconDark : styles.icon}
                 onClick={this.props.iconClickHandler}
                 key={this.props.icon}>{this.props.icon}</i>;
     }

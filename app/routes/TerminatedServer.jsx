@@ -4,8 +4,8 @@ import Theme from './../theme';
 const styles = {
   container: {
     backgroundColor: Theme.colors.BACKGROUND,
-    width: `calc(100% - ${Theme.sizes.PROJECT_BAR_WIDTH + Theme.sizes.MENU_BAR_WIDTH}px)`,
-    height: `calc(100% - ${Theme.sizes.SYSTEM_BAR_BOTTOM_HEIGHT + Theme.sizes.HEADER_HEIGHT + Theme.sizes.PROJECT_ICON_BAR_HEIGHT}px)`,
+    width: `calc(100% - ${Theme.sizes.MENU_BAR_WIDTH}px)`,
+    height: `calc(100% - ${Theme.sizes.SYSTEM_BAR_BOTTOM_HEIGHT}px)`,
     padding: '16px',
     fontFamily: '"Montserrat", sans-serif',
     color: Theme.colors.FONT_DEFAULT,
@@ -18,10 +18,10 @@ const styles = {
 };
 
 class TerminatedServer extends React.Component {
-
   render() {
     return <div style={styles.container}>
       AN ERROR HAS OCCURED
+
     </div>;
   }
 }

@@ -67,7 +67,7 @@ class ProjectBarEntry extends React.Component {
   }
 
   getContainerStyle() {
-    if (this.props.currentServerIndex >= 0 &&
+    if (this.props.currentServerIndex > 0 &&
         this.props.serverList[this.props.currentServerIndex].id === this.props.server.id) {
       return {
         ...styles.container,

@@ -138,7 +138,7 @@ class ProjectBar extends React.Component {
   }
 
   render() {
-    if (this.props.currentProjectIndex >= 0) {
+    if (this.props.currentProjectIndex > 0) {
       let inputField;
       if (this.state.newServer) {
         inputField = <input type="text"

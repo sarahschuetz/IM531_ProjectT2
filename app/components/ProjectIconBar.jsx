@@ -115,7 +115,7 @@ class ProjectIconBar extends React.Component {
   }
 
   render() {
-    if (this.props.currentServerIndex >= 0) {
+    if (this.props.currentServerIndex > 0) {
       return <div style={styles.container}>
         {(this.props.server.command !== '' && this.props.project.rootPath !== '') ?
           <div style={styles.icon} onClick={this.toggleServer}>

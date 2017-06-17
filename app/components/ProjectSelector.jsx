@@ -298,7 +298,7 @@ class ProjectSelector extends React.Component {
         </div>
 
         <div style={styles.middle}>
-          {this.props.currentProjectIndex >= 0 ?
+          {this.props.currentProjectIndex > 0 ?
             <div style={styles.addProj} key="delete" onClick={this.deleteProject}>
               <i className="material-icons" style={styles.addIcon}>delete_forever</i>
               delete Project

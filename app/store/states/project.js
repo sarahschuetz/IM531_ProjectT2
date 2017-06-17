@@ -4,7 +4,11 @@ const fileStore = new FileStore({
   name: 'project-store',
   defaults: {
     currentProjectIndex: -1,
-    list: [],
+    list: [{
+      name: 'StaticServer',
+      rootPath: '',
+      id: 0,
+    }],
     projectIdCounter: 1,
   },
 });
