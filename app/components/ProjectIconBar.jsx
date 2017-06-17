@@ -36,12 +36,14 @@ const styles = {
 @connect(store => ({
   currentServerIndex: store.server.currentServerIndex,
   server: store.server.list[store.server.currentServerIndex],
+  project: store.project.list[store.project.currentProjectIndex],
 }))
 class ProjectIconBar extends React.Component {
 
   static propTypes = {
     currentServerIndex: PropTypes.number,
     server: PropTypes.object,
+    project: PropTypes.object,
     dispatch: PropTypes.func,
   };
 
@@ -98,9 +100,11 @@ class ProjectIconBar extends React.Component {
   render() {
     if (this.props.currentServerIndex >= 0) {
       return <div style={styles.container}>
-        <div style={styles.icon} onClick={this.toggleServer}>
-          <ProjectIcon icon="power_settings_new"/>
-        </div>
+        {(this.props.server.command !== '' && this.props.project.rootPath !== '') ?
+          <div style={styles.icon} onClick={this.toggleServer}>
+            <ProjectIcon icon="power_settings_new"/>
+          </div>
+        : ''}
         {!this.props.server.isRunning ?
           <div style={styles.icon} onClick={this.deleteServer}>
             <ProjectIcon icon="delete_forever"/>
