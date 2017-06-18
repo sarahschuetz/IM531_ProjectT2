@@ -6,8 +6,8 @@ import Theme from './../theme';
 import { startServer, stopCurrentServer } from './../store/actions/server';
 import { startProcess, stopProcess, addMessage, processTerminated } from './../store/actions/process';
 
-const spawn = require('child_process').spawn;
 const cp = require('child_process');
+const spawn = require('child_process').spawn;
 
 const styles = {
   container: {
@@ -108,9 +108,7 @@ class ServerWindow extends React.Component {
       if (!isWin) {
         process.kill(pid);
       } else {
-        cp.exec(`taskkill /PID ${pid} /T /F`, () => {
-
-        });
+        cp.exec(`taskkill /PID ${pid} /T /F`, () => {});
       }
     }
     this.props.dispatch(stopProcess(pid));

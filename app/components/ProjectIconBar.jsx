@@ -6,6 +6,7 @@ import ProjectIcon from './ProjectIcon.jsx';
 import { deleteServer, startServer, stopCurrentServer } from './../store/actions/server';
 import { startProcess, stopProcess, addMessage, processTerminated } from './../store/actions/process';
 
+const cp = require('child_process');
 const spawn = require('child_process').spawn;
 
 const styles = {
@@ -108,7 +109,12 @@ class ProjectIconBar extends React.Component {
     const pid = this.props.server.processPID;
     const currentProcess = this.props.processList.filter(process => process.pid === pid)[0];
     if (!currentProcess.terminated) {
-      process.kill(pid);
+      const isWin = /^win/.test(process.platform);
+      if (!isWin) {
+        process.kill(pid);
+      } else {
+        cp.exec(`taskkill /PID ${pid} /T /F`, () => {});
+      }
     }
     this.props.dispatch(stopProcess(pid));
     this.props.dispatch(stopCurrentServer());
