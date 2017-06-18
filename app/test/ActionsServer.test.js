@@ -25,11 +25,11 @@ describe('actions', () => {
 
 describe('actions', () => {
   it('create action DELETE_SERVER', () => {
-    const serverIndex = 3;
+    const serverId = 3;
     const expectedAction = {
       type: 'DELETE_SERVER',
-      payload: { serverIndex },
+      payload: { serverId },
     };
-    expect(actions.deleteServer(serverIndex)).toEqual(expectedAction);
+    expect(actions.deleteServer(serverId)).toEqual(expectedAction);
   });
 });
