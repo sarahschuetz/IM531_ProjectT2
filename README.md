@@ -52,6 +52,10 @@ To sum it up, you can run the project as follows:
 2. `npm start`
 3. `npm run watch`
 
+## Data Storage
+
+The configuration of the projects and server is stored in json files using the **electron-store** module in the specified default directory of the bundle ([see](https://github.com/sindresorhus/electron-store)). The 2 files generated are `project-store.json` and `server-store.json`. The processes are not stored because they will be stoped anyway if the application is closed.
+
 ## Tests
 
 Some tests can be found in the `app/test` folder. The tests can be run using `npm run test`.
