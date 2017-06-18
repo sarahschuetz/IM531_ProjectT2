@@ -1,6 +1,6 @@
 {
   "name": "edon",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "server GUI for node.js",
   "main": "app/main.js",
   "scripts": {
