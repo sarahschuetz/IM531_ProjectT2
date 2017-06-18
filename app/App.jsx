@@ -55,12 +55,19 @@ class App extends React.Component {
       serverOverviewActive: true,
       terminatedServerActive: false,
       staticWebserverActive: false,
+      windowShouldBeClosed: false,
     };
     this.stopAllServer = this.stopAllServer.bind(this);
   }
 
   componentWillMount() {
     ipcRenderer.on('stop-servers', this.stopAllServer);
+  }
+
+  componentDidUpdate() {
+    if (this.state.windowShouldBeClosed) {
+      ipcRenderer.send('close-window');
+    }
   }
 
   stopAllServer() {
@@ -83,7 +90,7 @@ class App extends React.Component {
       }
       index += 1;
     });
-    ipcRenderer.send('close-window');
+    this.setState({ windowShouldBeClosed: true });
   }
 
   onButtonClick(title) {
