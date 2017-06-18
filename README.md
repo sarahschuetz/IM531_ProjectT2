@@ -43,14 +43,14 @@ The `server` directory contains only the **configuration of the express server**
 
 After the first download of the source code `npm install` or `yarn` must be run in the **project root directory**.
 
-All necessary scripts to run the project can be found in the `package.json` file. The electron app is started using `npm start`. To build the react part of the application a webpack server is used. The webpack server should be started using `npm run watch`. The development tools are not shown but can be uncommented in the `main.js` file.
+All necessary scripts to run the project can be found in the `package.json` file. The electron app is started using `npm start`. To build the react part of the application a webpack server is used. The webpack server should be started using `npm run watch`. When running the project for the first time webpack needs to run before the app can be started, because the `bundle.js` file needs to be created. The development tools are not shown but can be uncommented in the `main.js` file.
 
 When using dev tools it is **important not to reload the project** while any background process is running. If done so, the process will not be stopped and the application will still think the the server is running, but trying to stop the process/server will result in an error because the reference to the process is gone. This however is not a problem in production because the window cannot be reloaded.
 
 To sum it up, you can run the project as follows:
 1. `npm install` or `yarn`
-2. `npm start`
-3. `npm run watch`
+2. `npm run watch`
+3. when webpack is started and `bundle.js` file is created `npm start`
 
 ## Data Storage
 
