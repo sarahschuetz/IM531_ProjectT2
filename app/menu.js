@@ -51,7 +51,7 @@ const menuTemplate = [
     submenu: [
       {
         label: 'Learn More',
-        click() { shell.openExternal('https://electron.atom.io'); },
+        click() { shell.openExternal('https://github.com/sarahschuetz/IM531_ProjectT2'); },
       },
     ],
   },
