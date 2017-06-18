@@ -7,7 +7,6 @@ import { deleteServer, startServer, stopCurrentServer } from './../store/actions
 import { startProcess, stopProcess, addMessage, processTerminated } from './../store/actions/process';
 
 const cp = require('child_process');
-const spawn = require('child_process').spawn;
 
 const styles = {
   container: {
@@ -83,7 +82,7 @@ class ProjectIconBar extends React.Component {
   }
 
   startServer() {
-    const newProcess = spawn(this.props.server.command, [], {
+    const newProcess = cp.spawn(this.props.server.command, [], {
       shell: true,
       cwd: this.props.project.rootPath,
     });
