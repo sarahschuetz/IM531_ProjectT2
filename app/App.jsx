@@ -77,7 +77,6 @@ class App extends React.Component {
             cp.exec(`taskkill /PID ${pid} /T /F`, () => {});
           }
         }
-        process.kill(pid);
         this.props.dispatch(stopProcess(pid));
         this.props.dispatch(stopServer(index));
       }
