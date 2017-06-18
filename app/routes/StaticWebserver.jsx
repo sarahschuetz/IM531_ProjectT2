@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
+import { shell } from 'electron';
 import Theme from './../theme';
 import Console from './../components/Console.jsx';
 import TextInput from './../components/TextInput.jsx';
@@ -41,6 +42,17 @@ const styles = {
     position: 'absolute',
     right: '16px',
     top: '16px',
+  },
+  iconOpen: {
+    position: 'absolute',
+    right: '30px',
+    top: '86px',
+    display: 'block',
+    fontSize: '35px',
+    ':hover': {
+      color: Theme.colors.EDON_BLUE_LIGHT,
+      cursor: 'pointer',
+    },
   },
   input: {
     clear: 'both',
@@ -85,6 +97,10 @@ class StaticWebserver extends React.Component {
     }
   }
 
+  openWebsite() {
+    shell.openExternal('http://localhost:9000');
+  }
+
   handleChange(event) {
     this.props.dispatch(setShowDirectory(event.target.value));
   }
@@ -107,6 +123,9 @@ class StaticWebserver extends React.Component {
       { (this.props.server && this.props.server.showDirectory) ?
         <div style={styles.icon}><ServerStartIcon arg={this.props.server.showDirectory}/></div>
       : ''}
+      { (this.props.server && this.props.server.isRunning) ?
+        <i className="material-icons"style={styles.iconOpen} onClick={this.openWebsite}>open_in_new</i>
+      : ''}
       <div style={styles.input}>
         <TextInput label="server directory"
                    placeholder="directory/to/serve"
@@ -116,7 +135,6 @@ class StaticWebserver extends React.Component {
                    value={this.props.server.showDirectory}
                    handleChange={this.handleChange} />
       </div>
-      <div>{this.state.errorMessage}</div>
       <Console server={this.props.server}/>
     </div>;
   }
