@@ -95,7 +95,7 @@ class StaticWebserver extends React.Component {
   }
 
   componentWillUpdate(nextProps) {
-    if (this.props.server !== nextProps.server) {
+    if (this.props.serverList !== nextProps.serverList) {
       this.props.fileStore.set({
         list: nextProps.serverList,
       });
