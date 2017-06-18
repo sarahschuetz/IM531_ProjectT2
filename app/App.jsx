@@ -74,7 +74,8 @@ class App extends React.Component {
           if (!isWin) {
             process.kill(pid);
           } else {
-            cp.exec(`taskkill /PID ${pid} /T /F`, () => {});
+            cp.exec(`taskkill /PID ${pid} /T /F`, () => {
+            });
           }
         }
         this.props.dispatch(stopProcess(pid));
