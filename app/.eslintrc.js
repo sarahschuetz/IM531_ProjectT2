@@ -29,5 +29,6 @@ module.exports = {
         'class-methods-use-this': 0,
         'experimental-decorators': 0,
         'react/no-find-dom-node': 0,
+        'import/no-extraneous-dependencies': ["error", {"devDependencies": true, "optionalDependencies": false, "peerDependencies": false}],
     }
 };
