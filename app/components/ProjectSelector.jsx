@@ -251,12 +251,12 @@ class ProjectSelector extends React.Component {
     this.setState({ nameInput: event.target.value });
   }
 
-  findServerIndex(server) {
+  findServerIndex(serverId) {
     let index = 0;
     let result = -1;
 
     this.props.serverList.forEach((currentServer) => {
-      if (currentServer.id === server.id) {
+      if (currentServer.id === serverId) {
         result = index;
       }
       index += 1;
@@ -266,7 +266,7 @@ class ProjectSelector extends React.Component {
   }
 
   deleteServer(server) {
-    const serverIndex = this.findServerIndex(server);
+    const serverIndex = this.findServerIndex(server.id);
     if (server.isRunning) {
       const pid = server.processPID;
       const currentProcess = this.props.processList.filter(process => process.pid === pid)[0];
@@ -276,7 +276,7 @@ class ProjectSelector extends React.Component {
       this.props.dispatch(stopProcess(pid));
       this.props.dispatch(stopServer(serverIndex));
     }
-    this.props.dispatch(deleteServer(serverIndex));
+    this.props.dispatch(deleteServer(server.id));
   }
 
   deleteProject() {
@@ -324,7 +324,7 @@ class ProjectSelector extends React.Component {
       </div>
       {this.state.fadeIn ? <div style={styles.dropDown} onBlur={this.toggleProjectMenu}>
         <div style={styles.scroll}>
-          {this.props.projects.map(project => (
+          {this.props.projects.filter(project => project.id > 0).map(project => (
             <ProjectSelectorEntry key={project.id}
                                   name={project.name}
                                   id = {project.id}

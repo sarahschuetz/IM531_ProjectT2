@@ -1,5 +1,19 @@
 import State from './../states/server';
 
+function findServerIndex(state, serverId) {
+  let index = 0;
+  let result = -1;
+
+  state.list.forEach((currentServer) => {
+    if (currentServer.id === serverId) {
+      result = index;
+    }
+    index += 1;
+  });
+
+  return result;
+}
+
 export default function reducer(state = State, action) {
   switch (action.type) {
     case 'ADD_SERVER': {
@@ -18,9 +32,10 @@ export default function reducer(state = State, action) {
       };
     }
     case 'DELETE_SERVER': {
+      const indexToDelete = findServerIndex(state, action.payload.serverId);
       return {
         ...state,
-        list: state.list.filter((item, index) => index !== action.payload.serverIndex),
+        list: state.list.filter((item, index) => index !== indexToDelete),
       };
     }
     case 'START_SERVER': {

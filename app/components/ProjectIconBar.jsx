@@ -64,7 +64,7 @@ class ProjectIconBar extends React.Component {
     if (this.props.server.isRunning) {
       this.stopServer();
     }
-    this.props.dispatch(deleteServer(this.props.currentServerIndex));
+    this.props.dispatch(deleteServer(this.props.server.id));
   }
 
   toggleServer() {
