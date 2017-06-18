@@ -89,6 +89,11 @@ class StaticWebserver extends React.Component {
     this.props.dispatch(setCurrentServerIndex(0));
   }
 
+  componentWillUnmount() {
+    this.props.dispatch(setCurrentProjectIndex(-1));
+    this.props.dispatch(setCurrentServerIndex(-1));
+  }
+
   componentWillUpdate(nextProps) {
     if (this.props.server !== nextProps.server) {
       this.props.fileStore.set({

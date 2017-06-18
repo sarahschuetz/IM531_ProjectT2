@@ -1,4 +1,4 @@
-const { app, BrowserWindow, globalShortcut, Menu, ipcMain } = require('electron');
+const { app, BrowserWindow, Menu, ipcMain } = require('electron');
 const path = require('path');
 const url = require('url');
 const menuTemplate = require('./menu.js');
@@ -26,8 +26,8 @@ function createWindow() {
     width: 1000,
     height: 600,
     icon: path.join(__dirname, '..', 'public', 'images', 'appIcon', 'icon.ico'),
-    minWidth: 800,
-    minHeight: 600,
+    minWidth: 900,
+    minHeight: 700,
   });
 
   win.readyToClose = false;
@@ -40,7 +40,7 @@ function createWindow() {
   }));
 
   // Open the DevTools.
-  win.webContents.openDevTools();
+  // win.webContents.openDevTools();
 
   // Emitted when the window is closed.
   win.on('close', (e) => {

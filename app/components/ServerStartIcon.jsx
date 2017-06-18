@@ -7,7 +7,6 @@ import { startServer, stopCurrentServer } from './../store/actions/server';
 import { startProcess, stopProcess, addMessage, processTerminated } from './../store/actions/process';
 
 const cp = require('child_process');
-const spawn = require('child_process').spawn;
 
 const styles = {
   container: {
@@ -76,7 +75,7 @@ class ServerWindow extends React.Component {
 
   startServer() {
     const arg = this.props.arg ? [`"${this.props.arg}"`] : [];
-    const newProcess = spawn(this.props.server.command, arg, {
+    const newProcess = cp.spawn(this.props.server.command, arg, {
       shell: true,
       cwd: this.props.project.rootPath,
     });

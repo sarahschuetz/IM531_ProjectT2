@@ -96,5 +96,3 @@ if (process.platform === 'darwin') {
 }
 
 module.exports = menuTemplate;
-
-
