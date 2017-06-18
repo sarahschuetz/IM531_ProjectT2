@@ -12,6 +12,8 @@ import SystemBarBottom from './components/SystemBarBottom.jsx';
 import { stopServer } from './store/actions/server';
 import { stopProcess } from './store/actions/process';
 
+const cp = require('child_process');
+
 const styles = {
   menuLink: {
     textDecoration: 'none',
@@ -36,11 +38,13 @@ const routes = [
 
 @connect(store => ({
   serverList: store.server.list,
+  processList: store.process.list,
 }))
 class App extends React.Component {
 
   static propTypes = {
     serverList: PropTypes.array,
+    processList: PropTypes.array,
     dispatch: PropTypes.func,
     fileStore: PropTypes.object,
   };
@@ -64,6 +68,15 @@ class App extends React.Component {
     this.props.serverList.forEach((server) => {
       if (server.isRunning) {
         const pid = server.processPID;
+        const currentProcess = this.props.processList.filter(process => process.pid === pid)[0];
+        if (!currentProcess.terminated) {
+          const isWin = /^win/.test(process.platform);
+          if (!isWin) {
+            process.kill(pid);
+          } else {
+            cp.exec(`taskkill /PID ${pid} /T /F`, () => {});
+          }
+        }
         process.kill(pid);
         this.props.dispatch(stopProcess(pid));
         this.props.dispatch(stopServer(index));

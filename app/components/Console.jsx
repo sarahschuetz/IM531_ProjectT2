@@ -68,8 +68,12 @@ class Console extends React.Component {
         const currentProcess = this.props.processList.filter(
           process => process.pid === this.props.server.processPID,
         )[0];
-        const empty = (currentProcess.messages.length === 0);
-        this.setState({ consoleIsEmpty: empty });
+        if (currentProcess) {
+          const empty = (currentProcess.messages.length === 0);
+          this.setState({ consoleIsEmpty: empty });
+        } else {
+          this.setState({ consoleIsEmpty: true });
+        }
       } else {
         this.setState({ consoleIsEmpty: true });
       }
