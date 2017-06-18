@@ -37,7 +37,7 @@ The build and the `dist` directory are for building the app. The `dist` director
 
 The `public` directory contains all **static files** like images and the `index.html` file. Also the static `style.css` and the **bundled javascript** can be found in this directory.
 
-The `server` directory contains onle the **configuration of the express server** which is only used by the app to start a static web server in a given directory. The app itself doesn't use any webserver because it is not needed. The routing is done via the **React HashRouter**.
+The `server` directory contains only the **configuration of the express server** which is only used by the app to start a static web server in a given directory. The app itself doesn't use any webserver because it is not needed. The routing is done via the **React HashRouter**.
 
 ## Workflow
 
