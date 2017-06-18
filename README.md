@@ -63,7 +63,7 @@ Some tests can be found in the `app/test` folder. The tests can be run using `np
 ## Building
 
 
-To build the app **electron-builder** module is used. A build can be created by running `npm run dist` like specified in the `package.json` file. Before building the link where the node server is started from has to be changed to `resources/app/server/server.js` in the file `app/store/states/server.js`. Otherwise the static file server will not work in the build. The build can then be found in the dist folder of the project. A build for Windows can be downloaded [here](https://www.dropbox.com/s/tbybyswpvzvhkkt/edon%20Setup%201.0.0.exe?dl=0).
+To build the app **electron-builder** module is used. A build can be created by running `npm run dist` like specified in the `package.json` file. Before building the link where the node server is started from has to be changed to `node resources/app/server/server.js` in the file `app/store/states/server.js`. Otherwise the static file server will not work in the build. The build can then be found in the dist folder of the project. A build for Windows can be downloaded [here](https://www.dropbox.com/s/tbybyswpvzvhkkt/edon%20Setup%201.0.0.exe?dl=0).
 
 
 ## OS Compatibility
