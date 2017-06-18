@@ -1,3 +1,5 @@
+/* eslint no-console: 0 */
+
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
@@ -24,5 +26,5 @@ app.use(errorHandler({
   showStack: true,
 }));
 
-console.log("Static server showing %s listening at http://%s:%s", publicDir, hostname, port);
+console.log('Static server showing %s listening at http://%s:%s', publicDir, hostname, port);
 app.listen(port, hostname);
